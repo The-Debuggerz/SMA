@@ -1,0 +1,12 @@
+{
+  "name": "SMA",
+  "version": "1.0.0",
+  "description": "Social Media App (SMA)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "The Debuggers",
+  "license": "ISC"
+}
