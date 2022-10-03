@@ -53,6 +53,14 @@
 > npm run dev
 > ```
 
+> ```
+> https://localhost:5000
+> ```
+
+`if you faced any kind of issue while setup project, create a new issue or asked in our discord server.`
+
 We will add more documentation as project moves forward
 
 That's it all you want to work with project.
+
+Happy Hacking.
