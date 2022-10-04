@@ -1,3 +1,4 @@
-node_modules
-
+env.js
+package-lock.json
 pnpm-lock.yaml
+/node_modules
