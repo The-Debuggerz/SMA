@@ -1,7 +1,11 @@
 const path = require('path');
 const express = require('express');
+const helmet = require('helmet');
 
 const app = express();
+
+// Helmet helps you secure your Express apps by setting various HTTP headers
+app.use(helmet());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
