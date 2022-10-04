@@ -1,5 +1,23 @@
 # SMA - Social Media App
 
+# TODO
+
+## Front-End
+- [ ] Add HomePage - React
+- [ ] Add Login Page - React
+- [ ] Add Register Page - React
+- [ ] Add Reset Password Page - React
+- [ ] Add About Page - React
+
+## Back-End
+- [ ] Add Routes - Node
+- [ ] Setup MongoDB - Node
+- [ ] Implement Models MongoDB - Node
+- [ ] Connect MongoDB - Node
+- [ ] Initialize MongoDB To Login & Register - Node
+- [ ] Authentication - Node
+- [ ] Authorization - Node
+
 ## ```Note``` Using <a href="https://vitejs.dev/">Vite</a> tool for React to get fast workflow
 
 ## Basic Structure of directory
