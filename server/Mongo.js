@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 
-mongoose.connect(
-  "mongodb+srv://test_user:testuser123@cluster0.xemb8vs.mongodb.net"
-);
+mongoose.connect(process.env.DB);
 
 const Post = require("./PostSchema");
 
