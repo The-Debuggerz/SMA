@@ -22,26 +22,6 @@ const HomePage = () => {
   }, []);
   console.log(posts);
   return (
-//     <div>
-//      
-//  <div>
-//   <span className="text-xl">Posts</span>
-//         <div>
-//           {posts.map((post, i) => {
-//             return (
-//               <div key={i}>
-//                 <h3>{post.name}</h3>
-//                 <p>{post.content}</p>
-//                 <div>{post.created.day}</div>
-//                 <div>{post.created.month}</div>
-//                 <div>{post.created.date}</div>
-//                 <div>{post.created.time}</div>
-//               </div>
-//             );
-//           })}
-//         </div>
-//         </div>
-//     </div>
 <>
 <Navbar/>
 <div className="grid place-items-center h-screen w-screen">
