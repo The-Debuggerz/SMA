@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Community Support
+    url: https://github.com/The-Debuggerz/SMA/discussions
+    about: Please ask and answer questions here.
+  - name: Application Security
+    url: https://github.com/The-Debuggerz/SMA/issues/new/choose
+    about: Please report security vulnerabilities here.
+  - name: Discord Community Support
+    url: https://discord.gg/2pfrQSBtAZ
+    about: Anything realted to app, we should know about share here.
