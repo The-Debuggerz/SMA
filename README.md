@@ -3,7 +3,7 @@
 # TODO
 
 ## Front-End
-- [ ] Add HomePage - React
+- [x] Add HomePage - React
 - [ ] Add Login Page - React
 - [ ] Add Register Page - React
 - [ ] Add Reset Password Page - React
@@ -11,9 +11,9 @@
 
 ## Back-End
 - [ ] Add Routes - Node
-- [ ] Setup MongoDB - Node
+- [x] Setup MongoDB - Node
 - [ ] Implement Models MongoDB - Node
-- [ ] Connect MongoDB - Node
+- [x] Connect MongoDB - Node
 - [ ] Initialize MongoDB To Login & Register - Node
 - [ ] Authentication - Node
 - [ ] Authorization - Node
