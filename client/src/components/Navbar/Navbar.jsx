@@ -1,17 +1,18 @@
-import { Fragment } from 'react';
+import { Fragment,useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-// import logo from '../svg/logo'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import logo from './logo.png';
+import logo from '../Logo/logo.png';
 const navigation = [
   { name: 'Home', href: '#', current: true },
   { name: 'Post', href: '#', current: false },
   { name: 'About', href: '#', current: false },
+  
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 export default function Navbar() {
+
   return (
     <Disclosure as='nav' className='bg-gray-800'>
       {({ open }) => (
