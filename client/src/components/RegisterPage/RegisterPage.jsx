@@ -39,7 +39,7 @@ export default function RegisterPage() {
                 <input
                   id="Username"
                   name="Username"
-                  type="password"
+                  type="text"
                   autoComplete="Username"
                   required
                   className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -91,12 +91,6 @@ export default function RegisterPage() {
               </div>
 
               <div className="text-sm">
-                {/* <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a> &nbsp;
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Sign up
-                </a>  */}
               </div>
               
               
