@@ -1,8 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import Navbar from '../Navbar/Navbar';
-
 const HomePage = () => {
   const [posts, setPost] = useState([]);
   useEffect(() => {
@@ -11,8 +9,7 @@ const HomePage = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then((data) => {
+    }).then((data) => {
         console.log(data);
         return data.json();
       })
@@ -23,7 +20,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
       <div className="grid place-items-center h-screen w-screen">
         <h1 className="font-bold text-5xl">
           Welcome To <b className="text-yellow-300">The Debuggers</b>
