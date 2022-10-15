@@ -4,13 +4,13 @@
 
 ## Front-End
 - [x] Add HomePage - React
-- [ ] Add Login Page - React
-- [ ] Add Register Page - React
+- [x] Add Login Page - React
+- [x] Add Register Page - React
 - [ ] Add Reset Password Page - React
 - [ ] Add About Page - React
 
 ## Back-End
-- [ ] Add Routes - Node
+- [x] Add Routes - Node
 - [x] Setup MongoDB - Node
 - [ ] Implement Models MongoDB - Node
 - [x] Connect MongoDB - Node
