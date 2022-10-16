@@ -34,11 +34,6 @@ app.use(cors());
 // Helmet helps you secure your Express apps by setting various HTTP headers
 app.use(helmet());
 // Apply the rate limiting middleware to all requests
-app.use('/api/posts', (req, res) => {
-  console.log('here');
-  res.status(200).send([]);
-});
-
 // TODO: request count
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
@@ -47,6 +42,11 @@ app.use((req, res, next) => {
 
 app.get('/api/', (req, res) => {
   res.send('Hello World!');
+});
+
+app.get('/api/posts', (req, res) => {
+  console.log('here');
+  res.send([Math.random()]);
 });
 
 app.post('/api/create', (req, res) => {
