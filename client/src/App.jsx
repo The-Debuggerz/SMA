@@ -1,6 +1,6 @@
-import HomePage from "./components/HomePage/HomePage";
-import "./App.css";
-import React from "react";
+import HomePage from './components/HomePage/HomePage';
+import './App.css';
+import React, { useEffect } from 'react';
 
 function App() {
   return (
