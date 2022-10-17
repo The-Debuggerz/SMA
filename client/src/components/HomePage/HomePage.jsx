@@ -6,7 +6,7 @@ import { getGoogleOAuthURL } from '../../util';
 const HomePage = () => {
   const [posts, setPost] = useState([]);
   useEffect(() => {
-    fetch('https://localhost:5000/posts', {
+    fetch('/api/posts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
