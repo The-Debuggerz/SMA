@@ -15,13 +15,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Navbar />}>
+        <Route path="/" element={<Navbar />}>
           <Route index element={<HomePage />} />
           <Route path='login' element={<Login />} />
           <Route path='signup' element={<RegisterPage />} />
-          {/* <Route path='posts' element={< />} /> */}
+          <Route path='posts' element={<AboutPage />} />
           <Route path='about' element={<AboutPage />} />
-          <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' element={<Profile />} />
         </Route>
       </Routes>
