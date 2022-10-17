@@ -53,7 +53,7 @@ app.post('/api/create', (req, res) => {
   console.log('Connected to React');
 });
 
-app.get('/api/posts', (req, res) => {
+app.get('/api/posts', limiter, (req, res) => {
   Post.find({}).then((data) => {
     console.log(`Sending ${data.length} Post Packets!`);
     res.json(data);
