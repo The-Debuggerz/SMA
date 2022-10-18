@@ -17,7 +17,7 @@ class Sockets {
   initialize(httpServer) {
     global.io = socketIO(httpServer, this.options);
     root.init();
-    log.cyan('Socket.io initialized 🔌');
+    log.blue('Socket.io initialized 🔌');
   }
 }
 

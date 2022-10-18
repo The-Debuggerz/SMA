@@ -2,12 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const { connectDB } = require('../server/utils/');
 const rateLimit = require('express-rate-limit');
 
 const Post = require('./models/');
-
-connectDB();
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes

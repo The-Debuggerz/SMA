@@ -1,6 +1,6 @@
 const UserSocket = require('./userSocket');
 const { User } = require('../../models');
-const { log, _ } = require('../../utils/');
+const { log, _, messages } = require('../../utils/');
 
 class RootSocket {
   constructor() {}
