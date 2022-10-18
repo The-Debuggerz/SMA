@@ -2,23 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 
-const Post = require('./models/PostSchema');
-
-mongoose.connection.once('open', () => {
-  console.log('MongoDB connection ready!');
-});
-
-mongoose.connection.on('error', (error) => {
-  console.error(error);
-});
-
-mongoose.connect(process.env.DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const Post = require('./models/');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
@@ -29,10 +15,24 @@ const limiter = rateLimit({
 });
 
 const app = express();
+function routeConfig(req, res, next) {
+  if (req.path === '/ping') return res.status(200).send({});
+  res.reply = ({ code, message }, data = {}, header = undefined) => {
+    res.status(code).header(header).jsonp({ message, data });
+  };
+  next();
+}
+
+function routeHandler(req, res) {
+  res.status(404);
+  res.send({ message: 'Route not found' });
+}
 
 app.use(cors());
 // Helmet helps you secure your Express apps by setting various HTTP headers
 app.use(helmet());
+app.use(routeConfig);
+app.use(routeHandler);
 // Apply the rate limiting middleware to all requests
 // TODO: request count
 app.use((req, res, next) => {
