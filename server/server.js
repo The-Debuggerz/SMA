@@ -3,6 +3,7 @@
 // const http = require('http');
 
 const app = require('./app');
+const { log } = require('./utils');
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,5 +20,5 @@ const PORT = process.env.PORT || 5000;
 //   });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
+  log.blue(`Listening on port ${PORT}...`);
 });
