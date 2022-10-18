@@ -53,13 +53,6 @@ _.now = () => {
   return `[${`${dt}`.split(' ')[4]}:${dt.getMilliseconds()}]`;
 };
 
-_.encryptPassword = function (password) {
-  return crypto
-    .createHmac('sha256', config.JWT_SECRET)
-    .update(password)
-    .digest('hex');
-};
-
 _.salt = function (length, type) {
   if (process.env.NODE_ENV !== 'prod') return 1234;
   if (type === 'string') {
