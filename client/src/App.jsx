@@ -8,6 +8,7 @@ import Profile from './components/Profile/Profile';
 import AboutPage from './components/AboutPage/AboutPage';
 import Login from './components/LoginPage/Login';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
+import ChatPage from './components/ChatPage/ChatPage';
 
 import './App.css';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path='about' element={<AboutPage />} />
           <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='chatPage' element={<ChatPage />} />
         </Route>
       </Routes>
     </>
