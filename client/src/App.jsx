@@ -9,7 +9,7 @@ import AboutPage from './components/AboutPage/AboutPage';
 import Login from './components/LoginPage/Login';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
 import ChatPage from './components/ChatPage/ChatPage';
-
+import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import './App.css';
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
           <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' element={<Profile />} />
           <Route path='chatPage' element={<ChatPage />} />
+          <Route path='forgotPassword' element={<ForgotPasswordPage />} />
         </Route>
       </Routes>
     </>
