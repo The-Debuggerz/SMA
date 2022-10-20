@@ -3,6 +3,7 @@
 # TODO
 
 ## Front-End
+
 - [x] Add HomePage - React
 - [x] Add Login Page - React
 - [x] Add Register Page - React
@@ -10,6 +11,7 @@
 - [ ] Add About Page - React
 
 ## Back-End
+
 - [x] Add Routes - Node
 - [x] Setup MongoDB - Node
 - [ ] Implement Models MongoDB - Node
@@ -18,7 +20,7 @@
 - [ ] Authentication - Node
 - [ ] Authorization - Node
 
-## ```Note``` Using <a href="https://vitejs.dev/">Vite</a> tool for React to get fast workflow
+## `Note` Using <a href="https://vitejs.dev/">Vite</a> tool for React to get fast workflow
 
 ## Basic Structure of directory
 
@@ -36,17 +38,19 @@
 > 3. Open terminal
 
 ### For Front-End (React)
+
 > To work with frontend and run navigate to client directory
 
-> ``` 
+> ```
 > cd client
 > ```
+>
 > `Use default keyword of your package manager to run project` `e.x npm / yarn / pnpm`
 
 > ### Paste following code inside your terminal
 
-> ``` 
-> npm i 
+> ```
+> npm i
 > ```
 
 > ```
@@ -54,17 +58,19 @@
 > ```
 
 ### For Back-End (Node)
+
 > To work with backend navigate to server directory
 
-> ``` 
+> ```
 > cd server
 > ```
+>
 > `Use default keyword of your package manager to run project` `e.x npm / yarn / pnpm`
 
 > ### Paste following code inside your terminal
 
-> ``` 
-> npm i 
+> ```
+> npm i
 > ```
 
 > ```
@@ -73,6 +79,14 @@
 
 > ```
 > https://localhost:5000
+> ```
+
+> ```
+> Use res.reply() function(located in app.js) with messages utility when sending response to front end
+> return res.reply(messages.custom.user_create_success, { data:'xyz'},{ authorization: newUser.sVerificationToken });
+> Here first argument is status and message second is response data and third is header
+> Alternatively, you can pass return res.reply(messages.success('OTP sent'), { data:'xyz'},{ authorization: newUser.sVerificationToken });
+> Refer messages.js from utils
 > ```
 
 `if you faced any kind of issue while setup project, create a new issue or asked in our discord server.`

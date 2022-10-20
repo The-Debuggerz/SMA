@@ -24,7 +24,7 @@ class PlayerSocket {
    * @param -> data { iRoomId }
    */
   async reqRoomJoin({ iRoomId }, callback) {
-    console.log('Room Joining Started!!');
+    log.blue('Room Joining Started!');
   }
 
   async disconnect() {
