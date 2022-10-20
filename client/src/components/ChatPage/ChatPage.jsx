@@ -1,5 +1,7 @@
 import React from 'react';
 const ChatPage = () => {
+
+  const avatarImg = 'https://card.thomasdaubenton.com/img/photo.jpg'
   return (
     <div className='w-full h-[calc(100vh-56px)]'>
       <div className='flex h-full'>
@@ -29,7 +31,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-green-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -59,7 +61,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -89,7 +91,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -116,7 +118,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -141,7 +143,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -175,7 +177,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -198,7 +200,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
@@ -240,7 +242,7 @@ const ChatPage = () => {
                         <div className='w-12 h-12 relative'>
                           <img
                             className='w-12 h-12 rounded-full mx-auto'
-                            src='../resources/profile-image.png'
+                            src={avatarImg}
                             alt='chat-user'
                           />
                           <span className='absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white'></span>
