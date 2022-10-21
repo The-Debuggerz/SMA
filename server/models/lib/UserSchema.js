@@ -32,6 +32,10 @@ const User = Schema(
       enum: ['y', 'n', 'd'],
       default: 'y',
     },
+    bIsOnline: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
 );

@@ -106,7 +106,7 @@ _.isOtpValid = function (createdAt) {
   return difference < process.env.OTP_VALIDITY;
 };
 
-_.handleCatchError = (error) => {
+_.handleCatchError = error => {
   log.red(`${_.now()} ----------ERROR--------- ${error}`);
   return res.reply(messages.custom.server_error);
 };
@@ -117,19 +117,16 @@ _.request = (body, options, callback) => {
   const req = httpRequest.request(options, function (res) {
     const chunks = [];
 
-    res.on('data', (chunk) => chunks.push(chunk));
-    res.on('error', (error) => callback(error));
+    res.on('data', chunk => chunks.push(chunk));
+    res.on('error', error => callback(error));
     res.on('end', () => callback(null, _.parse(Buffer.concat(chunks))));
   });
 
-  const requetsBody =
-    options.headers['Content-Type'] === 'application/x-www-form-urlencoded'
-      ? queryString.stringify(body)
-      : _.stringify(body);
+  const requetsBody = options.headers['Content-Type'] === 'application/x-www-form-urlencoded' ? queryString.stringify(body) : _.stringify(body);
   req.write(requetsBody);
   req.end();
 };
-_.searchRegex = (search) => {
+_.searchRegex = search => {
   if (!search) {
     return '';
   }
@@ -146,10 +143,14 @@ _.searchRegex = (search) => {
     .replace(/"/g, '\\"');
 };
 
-_.delay = (ttl) => new Promise((resolve) => setTimeout(resolve, ttl));
+_.delay = ttl => new Promise(resolve => setTimeout(resolve, ttl));
 
 _.errorCallback = (error, response) => {
   if (error) console.error(error);
 };
+
+_.getRoomKey = iRoomId => `r:${iRoomId.toString()}`;
+
+_.getUserKey = (iRoomId, iUserId) => `r:${iRoomId}:u:${iUserId}`;
 
 module.exports = _;
