@@ -11,6 +11,7 @@ import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
 import ChatPage from './components/ChatPage/ChatPage';
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import './App.css';
+import Settings from './components/Settings/Settings';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='forgotPassword' element={<ForgotPasswordPage />} />
+          <Route path='settings' element={<Settings />} />
         </Route>
       </Routes>
     </>
