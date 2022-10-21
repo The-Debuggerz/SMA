@@ -4,18 +4,15 @@ class PlayerSocket {
   constructor(socket) {
     this.socket = socket;
     this.iUserId = socket.user.iUserId;
+    this.sUserName = socket.user.sUserName;
     this.setEventListeners();
-    log.blue(
-      `${_.now()} client: ${this.iUserId} connected with socketId : ${
-        this.socket.id
-      }`
-    );
+    log.blue(`${_.now()} client: ${this.iUserId} connected with socketId : ${this.socket.id}`);
   }
   setEventListeners() {
     this.socket.on('ping', this.ping.bind(this));
     this.socket.on('reqRoomJoin', this.reqRoomJoin.bind(this));
     this.socket.on('disconnect', this.disconnect.bind(this));
-    this.socket.on('error', (error) => log.red('socket error', error));
+    this.socket.on('error', error => log.red('socket error', error));
   }
   ping(body, callback) {
     callback(null, {});
