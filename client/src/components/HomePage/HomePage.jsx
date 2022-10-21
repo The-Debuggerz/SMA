@@ -1,15 +1,15 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { getGoogleOAuthURL } from '../../util';
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { getGoogleOAuthURL } from "../../util";
 
 const HomePage = () => {
   const [posts, setPost] = useState([]);
   useEffect(() => {
-    fetch('/api/posts', {
-      method: 'GET',
+    fetch("/api/posts", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((data) => {
@@ -37,7 +37,7 @@ const HomePage = () => {
             return (
               <div className="item" key={post._id}>
                 <a className="ui tiny image">
-                  <img src={'https://picsum.photos/200/300?random=' + i} />
+                  <img src={"https://picsum.photos/200/300?random=" + i} />
                 </a>
                 <div className="content">
                   <a className="header">{post.title}</a>

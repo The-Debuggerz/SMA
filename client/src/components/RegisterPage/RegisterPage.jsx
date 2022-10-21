@@ -1,16 +1,12 @@
-import { LockClosedIcon } from '@heroicons/react/20/solid'
-import logo from '../Logo/logo.png';
+import { LockClosedIcon } from "@heroicons/react/20/solid";
+import logo from "../Logo/logo.png";
 export default function RegisterPage() {
   return (
     <>
       <div className="flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 align-top">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src={logo}
-              alt="SMA Logo"
-            />
+            <img className="mx-auto h-12 w-auto" src={logo} alt="SMA Logo" />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Create an account
             </h2>
@@ -74,7 +70,6 @@ export default function RegisterPage() {
                   placeholder="Confirm Password"
                 />
               </div>
-         
             </div>
 
             <div className="flex items-center justify-between">
@@ -85,15 +80,15 @@ export default function RegisterPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                I accept the Terms and Conditions
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  I accept the Terms and Conditions
                 </label>
               </div>
 
-              <div className="text-sm">
-              </div>
-              
-              
+              <div className="text-sm"></div>
             </div>
 
             <div>
@@ -102,7 +97,10 @@ export default function RegisterPage() {
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                  <LockClosedIcon
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    aria-hidden="true"
+                  />
                 </span>
                 Sign Up
               </button>
@@ -111,5 +109,5 @@ export default function RegisterPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
