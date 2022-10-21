@@ -12,6 +12,7 @@ import ChatPage from './components/ChatPage/ChatPage';
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import './App.css';
 import Settings from './components/Settings/Settings';
+import Notification from './components/Notification/Notification';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='forgotPassword' element={<ForgotPasswordPage />} />
           <Route path='settings' element={<Settings />} />
+          <Route path='notification' element={<Notification />} />
         </Route>
       </Routes>
     </>
