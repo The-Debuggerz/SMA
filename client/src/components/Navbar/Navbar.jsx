@@ -16,11 +16,9 @@ const navigation = [
   { name: 'About', href: 'about', current: false },
   { name: 'Admin', href: 'admin', current: false },
 ];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-
 export default function Navbar() {
   // const [toggle,setToggle]=useState(false)
   return (

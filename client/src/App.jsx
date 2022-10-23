@@ -13,7 +13,7 @@ import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPa
 import './App.css';
 import Settings from './components/Settings/Settings';
 import Notification from './components/Notification/Notification';
-
+import FooterPage from './components/FooterPage/FooterPage'
 function App() {
   return (
     <>
@@ -32,6 +32,7 @@ function App() {
           <Route path='notification' element={<Notification />} />
         </Route>
       </Routes>
+      <FooterPage/>
     </>
   );
 }
