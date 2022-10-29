@@ -5,7 +5,7 @@ const Conversations = Schema(
     aUserId: [String],
     aUsers: [
       {
-        iUserId: mongoose.Schema.Types.ObjectId,
+        iUserId: Schema.Types.ObjectId,
         sUserName: String,
       },
     ],
