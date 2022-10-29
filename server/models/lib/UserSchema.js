@@ -15,6 +15,7 @@ const User = Schema(
       type: String,
       required: true,
     },
+<<<<<<< HEAD
     picture: {
       type: String,
     },
@@ -36,6 +37,12 @@ const User = Schema(
     ],
     resetToken: String,
     resetTokenExpiration: Date,
+=======
+    bIsOnline: {
+      type: Boolean,
+      default: false,
+    },
+>>>>>>> f86cfc3d01e20511747bb1112503b958fd7c7834
   },
   {
     timestamps: true,
