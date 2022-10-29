@@ -2,8 +2,8 @@ const { Schema, model } = require('mongoose');
 
 const Likes = Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    iPostId: { type: Schema.Types.ObjectId, ref: 'posts' },
+    userId: { type: Schema.Types.ObjectId, ref: 'user' },
+    postId: { type: Schema.Types.ObjectId, ref: 'post' },
   },
   { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
 );

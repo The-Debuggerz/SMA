@@ -3,8 +3,9 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 
-const Post = require('./models/');
+const authRoutes = require('./routes/authRoutes');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
@@ -15,49 +16,19 @@ const limiter = rateLimit({
 });
 
 const app = express();
-function routeConfig(req, res, next) {
-  if (req.path === '/ping') return res.status(200).send({});
-  res.reply = ({ code, message }, data = {}, header = undefined) => {
-    res.status(code).header(header).jsonp({ message, data });
-  };
-  next();
-}
 
-function routeHandler(req, res) {
-  res.status(404);
-  res.send({ message: 'Route not found' });
-}
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.json());
 
 app.use(cors());
-// Helmet helps you secure your Express apps by setting various HTTP headers
 app.use(helmet());
-app.use(routeConfig);
-app.use(routeHandler);
-// Apply the rate limiting middleware to all requests
+
+app.use(authRoutes);
 // TODO: request count
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
-});
-
-app.get('/api/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.get('/api/posts', (req, res) => {
-  console.log('here');
-  res.send([Math.random()]);
-});
-
-app.post('/api/create', (req, res) => {
-  console.log('Connected to React');
-});
-
-app.get('/api/posts', limiter, (req, res) => {
-  Post.find({}).then((data) => {
-    console.log(`Sending ${data.length} Post Packets!`);
-    res.json(data);
-  });
 });
 
 if (process.env.NODE_ENV === 'production') {

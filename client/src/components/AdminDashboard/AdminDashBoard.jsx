@@ -3,64 +3,68 @@ import React from 'react';
 const AdminDashBoard = () => {
   return (
     <>
-      <section class='text-gray-400 bg-gray-900 body-font'>
-        <div class='container px-5 py-24 mx-auto'>
-          <div class='flex flex-col text-center w-full mb-20'>
-            <h1 class='sm:text-3xl text-2xl font-medium title-font mb-4 text-white'>
+      <section className='text-gray-400 bg-gray-900 body-font'>
+        <div className='container px-5 py-24 mx-auto'>
+          <div className='flex flex-col text-center w-full mb-20'>
+            <h1 className='sm:text-3xl text-2xl font-medium title-font mb-4 text-white'>
               User Statistics
             </h1>
           </div>
-          <div class='flex flex-wrap -m-4 text-center'>
-            <div class='p-4 md:w-1/4 sm:w-1/2 w-full'>
-              <div class='border-2 border-gray-800 px-4 py-6 rounded-lg'>
+          <div className='flex flex-wrap -m-4 text-center'>
+            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+              <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
                   stroke='currentColor'
-                  class='text-indigo-400 w-12 h-12 mb-3 inline-block'
+                  className='text-indigo-400 w-12 h-12 mb-3 inline-block'
                 >
                   <path
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                     d='M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z'
                   />
                 </svg>
 
-                <h2 class='title-font font-medium text-3xl text-white'>0</h2>
-                <p class='leading-relaxed'>New Users</p>
+                <h2 className='title-font font-medium text-3xl text-white'>
+                  0
+                </h2>
+                <p className='leading-relaxed'>New Users</p>
               </div>
             </div>
-            <div class='p-4 md:w-1/4 sm:w-1/2 w-full'>
-              <div class='border-2 border-gray-800 px-4 py-6 rounded-lg'>
+            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+              <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   fill='none'
                   stroke='currentColor'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
-                  class='text-indigo-400 w-12 h-12 mb-3 inline-block'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  className='text-indigo-400 w-12 h-12 mb-3 inline-block'
                   viewBox='0 0 24 24'
                 >
                   <path d='M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2'></path>
                   <circle cx='9' cy='7' r='4'></circle>
                   <path d='M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75'></path>
                 </svg>
-                <h2 class='title-font font-medium text-3xl text-white'>0</h2>
-                <p class='leading-relaxed'>Total Users</p>
+                <h2 className='title-font font-medium text-3xl text-white'>
+                  0
+                </h2>
+                <p className='leading-relaxed'>Total Users</p>
               </div>
             </div>
-            <div class='p-4 md:w-1/4 sm:w-1/2 w-full'>
-              <div class='border-2 border-gray-800 px-4 py-6 rounded-lg'>
+            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+              <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   stroke='currentColor'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   viewBox='0 0 24 24'
                   strokeWidth={2}
                   className='text-indigo-400 w-12 h-12 mb-3 inline-block'
@@ -72,19 +76,21 @@ const AdminDashBoard = () => {
                   />
                 </svg>
 
-                <h2 class='title-font font-medium text-3xl text-white'>0</h2>
-                <p class='leading-relaxed'>Posts</p>
+                <h2 className='title-font font-medium text-3xl text-white'>
+                  0
+                </h2>
+                <p className='leading-relaxed'>Posts</p>
               </div>
             </div>
-            <div class='p-4 md:w-1/4 sm:w-1/2 w-full'>
-              <div class='border-2 border-gray-800 px-4 py-6 rounded-lg'>
+            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+              <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
                   stroke='currentColor'
                   className='text-indigo-400 w-12 h-12 mb-3 inline-block'
                 >
@@ -95,8 +101,10 @@ const AdminDashBoard = () => {
                   />
                 </svg>
 
-                <h2 class='title-font font-medium text-3xl text-white'>0</h2>
-                <p class='leading-relaxed'>Photos</p>
+                <h2 className='title-font font-medium text-3xl text-white'>
+                  0
+                </h2>
+                <p className='leading-relaxed'>Photos</p>
               </div>
             </div>
           </div>

@@ -2,12 +2,12 @@ const { Schema, model } = require('mongoose');
 
 const Post = new Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    sTitle: String,
-    sContent: String,
-    sImage: String,
+    userId: { type: Schema.Types.ObjectId, ref: 'user' },
+    title: String,
+    content: String,
+    image: String,
   },
   { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
 );
 
-module.exports = model('posts', Post);
+module.exports = model('post', Post);

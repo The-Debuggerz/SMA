@@ -1,39 +1,62 @@
 const { Schema, model } = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const User = Schema(
   {
-    sEmail: { type: String, default: '' },
-    sMobile: { type: String, default: '' },
-    sUserName: { type: String, default: '' },
-    sFullName: { type: String, default: '' },
-    sPassword: { type: String },
-    sGoogleId: String,
-    sAvatar: String,
-    sPushToken: String,
-    dDob: Date,
-    sToken: String,
-    sVerificationToken: String,
-    sRootSocket: String,
-    nOTP: Number,
-    isEmailVerified: { type: Boolean, default: false },
-    isMobileVerified: { type: Boolean, default: false },
-    eGender: {
+    name: {
       type: String,
-      enum: ['male', 'female', 'unspecified'],
-      default: 'unspecified',
+      required: true,
     },
-    eUserType: {
+    username: {
       type: String,
-      enum: ['user', 'admin'],
-      default: 'user',
+      required: true,
     },
-    eStatus: {
+    email: {
       type: String,
-      enum: ['y', 'n', 'd'],
-      default: 'y',
+      required: true,
     },
+    picture: {
+      type: String,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    resetToken: String,
+    resetTokenExpiration: Date,
   },
-  { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = model('users', User);
+// User.methods.generateAuthToken = async function () {
+//   try {
+//     let userToken = jwt.sign(
+//       { _id: this._id.toString() },
+//       process.env.PRIVATE_KEY,
+//       {
+//         expiresIn: '1h',
+//       }
+//     );
+//     this.tokens = this.tokens.concat({ token: userToken });
+//     await this.save();
+//     return userToken;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+module.exports = model('user', User);

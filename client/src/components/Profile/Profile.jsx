@@ -1,10 +1,45 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [count, setCount] = useState(0);
+  const [userData, setUserData] = useState(0);
 
+  let navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    const userProfile = async () => {
+      try {
+        const res = await fetch('/api/profile', {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        const data = await res.json();
+        setUserData(data);
+
+        if (res.status === 401) {
+          throw new Error(res.error);
+        }
+      } catch (error) {
+        console.log(error);
+        navigate('/login');
+      }
+    };
+    userProfile();
+  }, []);
+
+  console.log(isLoggedIn);
+  // const dispatch = useDispatch();
   const incCount = () => setCount((prev) => prev + 1);
+
   return (
     <Fragment>
       <div className='main-profile grid place-items-center'>
@@ -22,7 +57,9 @@ const Profile = () => {
               <div className='mujib flex-col'>
                 <div className='profile-details flex items-center justify-center'>
                   <div className='profile-name text-white '>
-                    <h1 className='text-4xl'>The Debuggers</h1>
+                    <h1 className='text-4xl'>
+                      {userData ? userData.name : 'The Debuggers'}
+                    </h1>
                     <h3 className='text-xl'>CEO / Founder</h3>
                   </div>
 

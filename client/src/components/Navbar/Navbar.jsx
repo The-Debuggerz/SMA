@@ -1,5 +1,6 @@
-import { Fragment, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, Outlet } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
@@ -7,21 +8,16 @@ import {
   XMarkIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/react/24/outline';
+import Logout from '../LoginPage/Logout';
 import logo from '../Logo/logo.png';
-import { Link } from 'react-router-dom';
-
-const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Post', href: 'posts', current: false },
-  { name: 'About', href: 'about', current: false },
-  { name: 'Admin', href: 'admin', current: false },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 export default function Navbar() {
+  let isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const userLogout = () => {
+    <Logout />;
+  };
+  // console.log('islogin-navbar:', isLoggedIn);
   return (
     <>
       <Disclosure as='nav' className='bg-gray-800'>
@@ -53,22 +49,38 @@ export default function Navbar() {
                     />
                   </div>
                   <div className='hidden sm:ml-6 sm:block'>
-                    <div className='flex space-x-4'>
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={classNames(
-                            item.current
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'px-3 py-2 rounded-md text-sm font-medium'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                    <div className='flex space-x-4 text-white'>
+                      {!isLoggedIn && (
+                        <>
+                          <Link className='nav__item' to='/login'>
+                            <span className='nav__itemLineTwo'>Login</span>
+                          </Link>
+                          <Link className='nav__item' to='/signup'>
+                            <span className='nav__itemLineTwo'>SignUp</span>
+                          </Link>
+                        </>
+                      )}
+
+                      {isLoggedIn && (
+                        <>
+                          <Link className='nav__item' to='/'>
+                            <span className='nav__itemLineTwo'>Home</span>
+                          </Link>
+                          <Link className='nav__item' to='/profile'>
+                            <span className='nav__itemLineTwo'>Profile</span>
+                          </Link>
+                          <Link className='nav__item' to='/admin'>
+                            <span className='nav__itemLineTwo'>Admin</span>
+                          </Link>
+                          <Link
+                            className='nav__item'
+                            to='/logout'
+                            onClick={userLogout}
+                          >
+                            <span className='nav__itemLineTwo'>Logout</span>
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

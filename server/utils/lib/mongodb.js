@@ -3,7 +3,7 @@ const log = require('./log');
 
 const connectDB = async () => {
   try {
-    await connect(process.env.DB);
+    connect(process.env.DB);
     log.blue('connected to db...');
   } catch (error) {
     console.log(error.message);

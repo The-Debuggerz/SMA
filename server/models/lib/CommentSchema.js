@@ -2,11 +2,11 @@ const { Schema, model } = require('mongoose');
 
 const Comments = Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    iPostId: { type: Schema.Types.ObjectId, ref: 'posts' },
-    sComment: String,
+    userId: { type: Schema.Types.ObjectId, ref: 'user' },
+    postId: { type: Schema.Types.ObjectId, ref: 'post' },
+    comment: String,
   },
   { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
 );
 
-module.exports = model('comments', Comments);
+module.exports = model('comment', Comments);
