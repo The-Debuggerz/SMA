@@ -7,22 +7,22 @@ const { profile, isLoggedIn, userPosts } = require('../controllers/user');
 
 const authentication = require('../middleware/check-auth');
 
-router.get('/api/sessions/oauth/google', googleOAuthHandler);
+router.get('/sessions/oauth/google', googleOAuthHandler);
 
-router.post('/api/login', login);
+router.post('/login', login);
 
-router.post('/api/register', signup);
+router.post('/register', signup);
 
 router.use(authentication);
 
-router.get('/api/profile', profile);
+router.get('/profile', profile);
 
-router.get('/api/posts', userPosts);
+router.get('/posts', userPosts);
 
-router.get('/api/isLoggedIn', isLoggedIn);
+router.get('/isLoggedIn', isLoggedIn);
 
-router.get('/api/refresh', refresh);
+router.get('/refresh', refresh);
 
-router.get('/api/logout', logout);
+router.get('/logout', logout);
 
 module.exports = router;
