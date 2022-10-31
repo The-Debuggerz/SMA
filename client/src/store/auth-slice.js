@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// Fetch IS User LoggedIn Or Not From Backend
 export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
   let res = await fetch('/api/isLoggedIn', {
     method: 'GET',
@@ -13,6 +14,7 @@ export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
   return data;
 });
 
+// Logout User
 export const userLogout = createAsyncThunk('logout/user', async () => {
   console.log('logout function-authSlice');
   try {

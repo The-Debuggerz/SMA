@@ -55,6 +55,9 @@ export default function Navbar() {
                   </div>
                   <div className='hidden sm:ml-6 sm:block'>
                     <div className='flex space-x-4 text-white'>
+                      <Link className='nav__item' to='/loader'>
+                        <span className='nav__itemLineTwo'>Loader</span>
+                      </Link>
                       {!isLoggedIn && (
                         <>
                           <Link className='nav__item' to='/login'>

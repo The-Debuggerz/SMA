@@ -4,7 +4,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
+const { User } = require('./models/index');
 const authRoutes = require('./routes/authRoutes');
 
 const limiter = rateLimit({
@@ -30,6 +32,32 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
+
+// app.use((req, res, next) => {
+//   if (!req.cookies.jwtoken) {
+//     console.log('no token-app.js');
+//     return next();
+//   }
+//   const token = req.cookies.jwtoken;
+//   let verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
+//   console.log('verifyToken-app.js:', verifyToken);
+
+//   User.findById({
+//     _id: verifyToken._id,
+//   })
+//     .then(user => {
+//       if (!user) {
+//         return next();
+//       }
+//       req.user = user;
+//       console.log('req.user-app.js', req.user);
+//       next();
+//     })
+
+//     .catch(err => {
+//       next(new Error(err));
+//     });
+// });
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets

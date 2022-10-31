@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLoggedIn } from './store/auth-slice';
 
 import Navbar from './components/Navbar/Navbar';
+import Loader from './components/Navbar/Loader';
 import HomePage from './components/HomePage/HomePage';
 import Profile from './components/Profile/Profile';
 import ChatPage from './components/ChatPage/ChatPage';
@@ -33,9 +34,14 @@ function App() {
   return (
     <>
       <Navbar />
+
       <Routes>
-        <Route path='login' element={<Login />} />
-        <Route path='signup' element={<RegisterPage />} />
+        <Route path='loader' element={<Loader />} />
+
+        <Route element={isLoggedIn && <Navigate to='/' />}>
+          <Route path='login' element={<Login />} />
+          <Route path='signup' element={<RegisterPage />} />
+        </Route>
 
         <Route element={<PrivateRoute />}>
           <Route index element={<HomePage />} />
