@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-app.use(authRoutes);
+app.use('/api', authRoutes);
 // TODO: request count
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
