@@ -1,43 +1,45 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
 
 const User = Schema(
   {
-    sEmail: { type: String, default: '' },
-    sMobile: { type: String, default: '' },
-    sUserName: { type: String, default: '' },
-    sFullName: { type: String, default: '' },
-    sPassword: { type: String },
-    sGoogleId: String,
-    sAvatar: String,
-    sPushToken: String,
-    dDob: Date,
-    sToken: String,
-    sVerificationToken: String,
-    sRootSocket: String,
-    nOTP: Number,
-    isEmailVerified: { type: Boolean, default: false },
-    isMobileVerified: { type: Boolean, default: false },
-    eGender: {
+    name: {
       type: String,
-      enum: ['male', 'female', 'unspecified'],
-      default: 'unspecified',
+      required: true,
     },
-    eUserType: {
+    username: {
       type: String,
-      enum: ['user', 'admin'],
-      default: 'user',
+      required: true,
     },
-    eStatus: {
+    email: {
       type: String,
-      enum: ['y', 'n', 'd'],
-      default: 'y',
+      required: true,
     },
+    picture: {
+      type: String,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    followers: [{ type: ObjectId, ref: 'User' }],
+    following: [{ type: ObjectId, ref: 'User' }],
+
+    resetToken: String,
+    resetTokenExpiration: Date,
+
     bIsOnline: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = model('users', User);
+module.exports = model('User', User);

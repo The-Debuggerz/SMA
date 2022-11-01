@@ -9,7 +9,7 @@ import {
   XMarkIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/react/24/outline';
-import Logout from '../LoginPage/Logout';
+import Logout from '../Logout/Logout';
 import logo from '../Logo/logo.png';
 
 function classNames(...classes) {
@@ -55,6 +55,9 @@ export default function Navbar() {
                   </div>
                   <div className='hidden sm:ml-6 sm:block'>
                     <div className='flex space-x-4 text-white'>
+                      <Link className='nav__item' to='/loader'>
+                        <span className='nav__itemLineTwo'>Loader</span>
+                      </Link>
                       {!isLoggedIn && (
                         <>
                           <Link className='nav__item' to='/login'>

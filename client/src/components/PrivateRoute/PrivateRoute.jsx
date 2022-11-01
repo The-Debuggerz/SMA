@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
-import { useNavigate, Outlet, Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, Outlet, Navigate } from 'react-router-dom';
+import Loader from '../Loader/Loader';
 
 const PrivateRoute = ({ children }) => {
   const { isLoggedIn, loading } = useSelector((state) => state.auth);
@@ -13,9 +14,10 @@ const PrivateRoute = ({ children }) => {
   }, [isLoggedIn, loading]);
 
   if (loading || isLoggedIn === false) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
+  // return isLoggedIn === true ? <Outlet /> : <Navigate to='/login' replace />;
   return <Outlet />;
 };
 

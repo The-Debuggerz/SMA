@@ -37,9 +37,7 @@ exports.signup = async (req, res) => {
   try {
     await newUser.save();
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: 'Could not create user, please try again.' });
+    res.status(400).json({ message: 'Could not create user, please try again.' });
     console.log(error, 'Could not create user, please try again.');
   }
 
@@ -67,9 +65,7 @@ exports.login = async (req, res) => {
   let user = await User.findOne({ email: email });
 
   if (!user) {
-    return res
-      .status(400)
-      .json({ message: 'No account found with this Email' });
+    return res.status(400).json({ message: 'No account found with this Email' });
   }
 
   // console.log(user);
@@ -160,7 +156,5 @@ exports.logout = (req, res) => {
   console.log('cookies:', cookies);
 
   res.clearCookie('jwtoken', { domain: '127.0.0.1', path: '/' });
-  res
-    .status(200)
-    .json({ message: 'User Logout', isLoggedIn: false, token: null });
+  res.status(200).json({ message: 'User Logout', isLoggedIn: false, token: null });
 };

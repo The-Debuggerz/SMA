@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [posts, setPost] = useState([]);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   console.log('isLoggedIn', isLoggedIn);
