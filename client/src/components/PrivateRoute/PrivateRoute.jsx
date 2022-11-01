@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, Outlet, Navigate } from 'react-router-dom';
-import Loader from '../Navbar/Loader';
+import Loader from '../Loader/Loader';
 
 const PrivateRoute = ({ children }) => {
   const { isLoggedIn, loading } = useSelector((state) => state.auth);

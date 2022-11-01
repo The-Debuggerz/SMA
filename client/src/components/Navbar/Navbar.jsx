@@ -9,7 +9,7 @@ import {
   XMarkIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/react/24/outline';
-import Logout from '../LoginPage/Logout';
+import Logout from '../Logout/Logout';
 import logo from '../Logo/logo.png';
 
 function classNames(...classes) {

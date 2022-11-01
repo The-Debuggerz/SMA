@@ -4,16 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userLoggedIn } from './store/auth-slice';
 
 import Navbar from './components/Navbar/Navbar';
-import Loader from './components/Navbar/Loader';
+import Loader from './components/Loader/Loader';
 import HomePage from './components/HomePage/HomePage';
 import Profile from './components/Profile/Profile';
 import ChatPage from './components/ChatPage/ChatPage';
 import AboutPage from './components/AboutPage/AboutPage';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
-import PrivateRoute from './components/HomePage/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Login from './components/LoginPage/Login';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import Logout from './components/LoginPage/Logout';
+import Logout from './components/Logout/Logout';
 
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import Settings from './components/Settings/Settings';

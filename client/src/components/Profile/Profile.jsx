@@ -42,7 +42,7 @@ const Profile = () => {
 
   const followUser = async () => {
     try {
-      const res = await fetch('api/follow', {
+      const res = await fetch('/api/follow', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

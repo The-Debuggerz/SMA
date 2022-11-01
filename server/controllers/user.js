@@ -2,26 +2,20 @@ const { Post } = require('../models/index');
 const { User } = require('../models/index');
 
 exports.profile = async (req, res) => {
-  // try {
-  //   const userId = req.params.id;
-  //   console.log('userId', userId);
+  try {
+    const user = await User.findById(req.user._id).select('-password');
 
-  //   const profile = User.findById(req.params.id).select('-password');
-  //   console.log('🚀 profile', profile);
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('server error');
+  }
+};
 
-  // if (!profile) {
-  //   return res.status(400).josn({ message: 'There is no profile for this user' });
-  // }
-
-  //   res.json(profile);
-  // } catch (error) {
-  //   console.log(error.message);
-  //   res.status(500).send('server error');
-  // }
-
+exports.profileByUsername = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.id });
-    console.log('🚀 ~ file: authRoutes.js ~ line 24 ~ router.get ~ user', user);
+    console.log('🚀 ~ user.js ~ line 18 ~ exports.profileByUsername= ~ user', user);
 
     if (!user) {
       console.log('There is no profile for this user');
@@ -39,7 +33,7 @@ exports.deleteProfile = async (req, res) => {
   console.log('req.user._id', req.user._id);
   try {
     const profile = await User.findOneAndRemove({ _id: req.user._id });
-    console.log('🚀 ~ line 41 ~ router.get ~ user', profile);
+    console.log('🚀 ~ file: user.js ~ line 36 ~ exports.deleteProfile ~ profile', profile);
 
     if (!profile) {
       console.log('There is no profile for this user');

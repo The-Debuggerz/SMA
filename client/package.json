@@ -1,6 +1,5 @@
 {
-  "name": "SMA",
-  "proxy": "http://localhost:5000",
+  "name": "sma",
   "private": true,
   "version": "0.0.0",
   "type": "module",
