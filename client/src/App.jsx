@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLoggedIn } from './store/auth-slice';
+import { useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
 import Loader from './components/Loader/Loader';
@@ -14,7 +15,6 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Login from './components/LoginPage/Login';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import Logout from './components/Logout/Logout';
-
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import Settings from './components/Settings/Settings';
 import Notification from './components/Notification/Notification';
@@ -24,6 +24,8 @@ import './App.css';
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const {pathname}= useLocation();
+  console.log("navigate",pathname);
 
   useEffect(() => {
     dispatch(userLoggedIn());
@@ -34,18 +36,17 @@ function App() {
   return (
     <>
       <Navbar />
-
       <Routes>
         <Route path='loader' element={<Loader />} />
-
         <Route element={isLoggedIn && <Navigate to='/' />}>
           <Route path='login' element={<Login />} />
           <Route path='signup' element={<RegisterPage />} />
+          
         </Route>
 
         <Route element={<PrivateRoute />}>
           <Route index element={<HomePage />} />
-          <Route path='about' element={<AboutPage />} />
+          <Route path='about' element={<AboutPage /> } />
           <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' element={<Profile />} />
           <Route path='chatPage' element={<ChatPage />} />
@@ -55,7 +56,8 @@ function App() {
           <Route path='notification' element={<Notification />} />
         </Route>
       </Routes>
-      <FooterPage />
+      {pathname!=='/' && <FooterPage />}
+      
     </>
   );
 }
