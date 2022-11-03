@@ -13,27 +13,32 @@ exports.profile = async (req, res) => {
 };
 
 exports.profileByUsername = async (req, res) => {
+  console.log('req.user._id', req.user._id);
   try {
-    const user = await User.findOne({ username: req.params.id });
-    console.log('🚀 ~ user.js ~ line 18 ~ exports.profileByUsername= ~ user', user);
+    const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers']);
 
     if (!user) {
-      console.log('There is no profile for this user');
       return res.status(401).json({ message: 'There is no profile for this user' });
     }
 
-    res.json(user);
+    const currentUser = await User.findById(req.user._id);
+    let followStatus = false;
+
+    if (currentUser.following.includes(user._id) && user.followers.includes(req.user._id)) {
+      followStatus = true;
+    }
+
+    res.json({ user, followStatus });
   } catch (error) {
     console.log(error);
     res.status(500).send('server error');
   }
 };
 
+// Delete Profile
 exports.deleteProfile = async (req, res) => {
-  console.log('req.user._id', req.user._id);
   try {
     const profile = await User.findOneAndRemove({ _id: req.user._id });
-    console.log('🚀 ~ file: user.js ~ line 36 ~ exports.deleteProfile ~ profile', profile);
 
     if (!profile) {
       console.log('There is no profile for this user');
@@ -47,6 +52,7 @@ exports.deleteProfile = async (req, res) => {
   }
 };
 
+// Status of loggedIn User
 exports.isLoggedIn = async (req, res) => {
   return res.status(200).send({
     message: 'Login Successfull',
@@ -55,11 +61,10 @@ exports.isLoggedIn = async (req, res) => {
   });
 };
 
+// User Posts
 exports.userPosts = async (req, res) => {
   if (req.user) {
     Post.find({}).then(data => {
-      // console.log(`Sending ${data.length} Post Packets!`);
-      // console.log(data);
       res.json(data);
     });
   } else {
@@ -67,33 +72,64 @@ exports.userPosts = async (req, res) => {
   }
 };
 
-exports.isFollow = async (req, res) => {
-  User.findByIdAndUpdate(
-    req.body.followId,
-    {
-      $push: { followers: req.user._id },
-    },
-    {
-      new: true,
-    },
-    (err, result) => {
-      if (err) {
-        return res.status(422).json({ message: err });
-      }
+// Follow User
+exports.follow = async (req, res) => {
+  try {
+    // User we want to follow
+    const targetUser = await User.findOne({ username: req.body.username });
 
-      User.findByIdAndUpdate(
-        req.user._id,
-        {
-          $push: { following: req.body.followId },
-        },
-        { new: true }
-      )
-        .then(result => {
-          res.json(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    if (!targetUser) {
+      return res.status(404).json({
+        error: true,
+        message: 'User not found',
+      });
     }
-  );
+
+    const currentUser = await User.findById(req.user._id);
+
+    if (currentUser.following.includes(targetUser._id) && targetUser.followers.includes(req.user._id)) {
+      return res.status(200).json({ targetUser, message: 'Already Following', followStatus: true });
+    }
+
+    currentUser.following.push(targetUser._id);
+    targetUser.followers.push(req.user._id);
+
+    const [_, target] = await Promise.all([currentUser.save(), targetUser.save()]);
+
+    res.status(201).json({ target, followStatus: true });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: 'Failed to follow user',
+    });
+  }
+};
+
+// Unfollow User
+exports.unFollow = async (req, res) => {
+  try {
+    // User we want to unfollow
+    const targetUser = await User.findOne({ username: req.body.username });
+
+    if (!targetUser) {
+      return res.status(404).json({
+        error: true,
+        message: 'User not found',
+      });
+    }
+
+    const currentUser = await User.findById(req.user._id);
+
+    currentUser.following.pull(targetUser._id);
+    targetUser.followers.pull(req.user._id);
+
+    const [_, target] = await Promise.all([currentUser.save(), targetUser.save()]);
+
+    res.status(201).json({ target, followStatus: false });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: 'Failed to unfollow user',
+    });
+  }
 };

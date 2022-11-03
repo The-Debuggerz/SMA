@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 
-import { authActions } from '../../store/auth-slice';
+import { authActions } from '../../Store/AuthSlice';
 import logo from '../Logo/logo.png';
 
 const Login = () => {
@@ -36,7 +36,7 @@ const Login = () => {
     } else {
       window.alert(data.message);
     }
-    console.log('data-login', data);
+    // console.log('data-login', data);
     dispatch(authActions.login(data));
     navigate('/');
   };

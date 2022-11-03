@@ -1,41 +1,27 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { useParams } from 'react-router-dom';
+import { followUser, unFollowUser, userprofile } from '../../Store/FollowSlice';
 
-const Profile = () => {
-  const [userData, setUserData] = useState(0);
-
-  let navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+const UserProfile = () => {
+  const { following, followers, followStatus, name } = useSelector(
+    (state) => state.follow
+  );
+  let { username } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const userProfile = async () => {
-      try {
-        const res = await fetch('/api/profile', {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        const data = await res.json();
-        console.log(data);
-        setUserData(data);
-
-        if (res.status === 401) {
-          throw new Error(res.error);
-        }
-      } catch (error) {
-        console.log(error);
-        navigate('/login');
-      }
-    };
-    userProfile();
+    dispatch(userprofile(username));
   }, []);
 
-  console.log(isLoggedIn);
+  let unBtn = () => {
+    if (followStatus) {
+      dispatch(unFollowUser(username));
+    } else {
+      dispatch(followUser(username));
+    }
+  };
 
   return (
     <Fragment>
@@ -52,12 +38,26 @@ const Profile = () => {
               </div>
 
               <div className='mujib flex-col'>
-                <div className='profile-details flex items-center'>
+                <div className='profile-details flex items-center justify-center'>
                   <div className='profile-name text-white '>
-                    <h1 className='text-4xl'>
-                      {userData ? userData.name : 'The Debuggers'}
-                    </h1>
+                    <h1 className='text-4xl'>{name || 'The Debuggers'}</h1>
+
                     <h3 className='text-xl'>CEO / Founder</h3>
+                  </div>
+
+                  <div className='user-options flex ml-4 items-center justify-between mr-4'>
+                    <div className='btn p-1flex items-center justify-center mr-4'>
+                      <button className='fbtn ml-2 flex rounded-lg bg-yellow-400 p-2'>
+                        <UserPlusIcon
+                          className='h-6 w-6 mr-1'
+                          aria-hidden='true'
+                          type='follow'
+                          // onClick={() => dispatch(followUser(username))}
+                          onClick={() => unBtn()}
+                        />
+                        {followStatus ? 'Unfollow' : 'Follow'}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -73,7 +73,7 @@ const Profile = () => {
                   <div className='btn flex items-center justify-center ml-8'>
                     <button className='flex'>
                       <span className='text-xl'>
-                        <b>{userData.following?.length || 0} </b>Following
+                        <b>{following?.length || 0} </b>Following
                       </span>
                     </button>
                   </div>
@@ -81,7 +81,7 @@ const Profile = () => {
                   <div className='btnflex items-center justify-center ml-8'>
                     <button className='flex'>
                       <span className='text-xl'>
-                        <b>{userData.followers?.length || 0} </b>Followers
+                        <b>{followers?.length || 0} </b>Followers
                       </span>
                     </button>
                   </div>
@@ -98,4 +98,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;
