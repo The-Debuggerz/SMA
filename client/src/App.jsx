@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userLoggedIn } from './store/auth-slice';
+import { userLoggedIn } from './Store/AuthSlice';
 import { useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
