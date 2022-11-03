@@ -4,8 +4,8 @@ const ChatPage = () => {
   const avatarImg = 'https://card.thomasdaubenton.com/img/photo.jpg'
   return (
     <div className='w-full h-[calc(100vh-56px)]'>
-      <div className='flex h-full'>
-        <div className='flex-1 bg-gray-100 w-full'>
+      <div className=' h-full'>
+        <div className='flex-1 w-full'>
           <div className='main-body container m-auto w-11/12 h-full flex flex-col'>
             <div className='py-4 flex-2 flex flex-row'>
               <div className='flex-1 text-right'></div>

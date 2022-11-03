@@ -15,7 +15,8 @@ export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
 });
 
 // Logout User
-export const userLogout = createAsyncThunk('logout/user', async () => {
+export const userLogout = createAsyncThunk('logout/user', async () => 
+{
   console.log('logout function-authSlice');
   try {
     const res = await fetch('/api/logout', {
@@ -27,7 +28,6 @@ export const userLogout = createAsyncThunk('logout/user', async () => {
       withCredentials: true,
       credentials: 'include',
     });
-
     const data = await res.json();
     console.log('login-data:', data);
 
