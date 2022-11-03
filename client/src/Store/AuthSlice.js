@@ -10,12 +10,13 @@ export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
   });
 
   let data = await res.json();
-  console.log('userLoggedIn:dispatchData', data);
+  // console.log('userLoggedIn:dispatchData', data);
   return data;
 });
 
 // Logout User
-export const userLogout = createAsyncThunk('logout/user', async () => {
+export const userLogout = createAsyncThunk('logout/user', async () => 
+{
   console.log('logout function-authSlice');
   try {
     const res = await fetch('/api/logout', {
@@ -27,7 +28,6 @@ export const userLogout = createAsyncThunk('logout/user', async () => {
       withCredentials: true,
       credentials: 'include',
     });
-
     const data = await res.json();
     console.log('login-data:', data);
 
@@ -52,44 +52,35 @@ const authSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
       state.id = action.payload._id;
-      console.log('Loggedin-state', state);
     },
 
-    logout: (state, action) => {
+    logout: (state) => {
       console.log(state);
       state.token = null;
       state.isLoggedIn = false;
-      console.log('logout');
     },
   },
   extraReducers: {
-    [userLoggedIn.pending]: (state, action) => {
-      console.log('pending');
+    [userLoggedIn.pending]: (state) => {
       state.loading = true;
     },
     [userLoggedIn.fulfilled]: (state, action) => {
-      console.log('fulfilled');
       state.loading = false;
       state.isLoggedIn = action.payload.isLoggedIn;
-      console.log('fulfilled-state', state.isLoggedIn);
     },
-    [userLoggedIn.rejected]: (state, action) => {
-      console.log('rejected');
+    [userLoggedIn.rejected]: (state) => {
       state.loading = false;
     },
+
     //logout
-    [userLogout.pending]: (state, action) => {
-      console.log('userLogout-pending');
+    [userLogout.pending]: (state) => {
       state.loading = true;
     },
     [userLogout.fulfilled]: (state, action) => {
-      console.log('userLogout-fulfilled');
       state.loading = false;
       state.isLoggedIn = action.payload?.isLoggedIn;
-      console.log('userLogout-fulfilled-state', state.isLoggedIn);
     },
-    [userLogout.rejected]: (state, action) => {
-      console.log('rejected');
+    [userLogout.rejected]: (state) => {
       state.loading = false;
     },
   },

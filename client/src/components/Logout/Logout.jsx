@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { userLogout } from '../../store/auth-slice';
+import { userLogout } from '../../Store/AuthSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 

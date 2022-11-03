@@ -10,7 +10,7 @@ exports.signup = async (req, res) => {
   } else if (password !== confirmPassword) {
     return res.status(422).json({ error: 'Password do not mactched' });
   }
-  console.log(req.body);
+  // console.log(req.body);
 
   let existingUser = await User.findOne({
     $or: [{ username: username }, { email: email }],
@@ -40,11 +40,7 @@ exports.signup = async (req, res) => {
     res.status(400).json({ message: 'Could not create user, please try again.' });
     console.log(error, 'Could not create user, please try again.');
   }
-
   console.log(newUser);
-
-  // let token = await User.generateAuthToken();
-  // console.log('tokenfromregister:', token);
 
   res.status(200).json({
     message: 'Registeration Succeful',
@@ -91,14 +87,7 @@ exports.login = async (req, res) => {
   });
 
   res.cookie('jwtoken', accessToken, {
-    // httpOnly: true, // accessible by browser only
-    // // secure: false, // https
-    // sameSite: 'None', //cross-site cookie
-    // maxAge: 7 * 24 * 60 * 60 * 1000, // 1 days
-    // path: '/api',
-    // domain: '127.0.0.1',
-
-    maxAge: 900000, // 15 mins
+    maxAge: 3600000, // 1 hr
     httpOnly: true,
     path: '/',
     sameSite: 'lax',
