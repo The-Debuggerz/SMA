@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import AddPost from '../AddPost/AddPost';
 const HomePage = () => {
   const [posts, setPost] = useState([]);
   const { isLoggedIn, loading } = useSelector((state) => state.auth);
@@ -44,7 +44,11 @@ const HomePage = () => {
         <h1 className='font-bold text-5xl'>
           Welcome To <b className='text-yellow-300'>The Debuggers</b>
         </h1>
+        <div className='w-2/3'>
+        <AddPost/>
+        </div>
         <div>
+        
           <span className='text-xl'>Posts</span>
         </div>
         <div className='ui items'>

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userLoggedIn } from './Store/AuthSlice';
+import { userLoggedIn } from './store/auth-slice';
+import { useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
@@ -14,7 +15,6 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import Logout from './components/Logout/Logout';
-
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import Settings from './components/Settings/Settings';
 import Notification from './components/Notification/Notification';
@@ -24,6 +24,8 @@ import './App.css';
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  console.log('navigate', pathname);
 
   useEffect(() => {
     dispatch(userLoggedIn());
@@ -33,7 +35,6 @@ function App() {
 
   return (
     <>
-    
       <Navbar />
       <Routes>
         <Route
@@ -58,7 +59,7 @@ function App() {
           <Route path='notification' element={<Notification />} />
         </Route>
       </Routes>
-      <FooterPage />
+      {pathname !== '/' && <FooterPage />}
     </>
   );
 }
