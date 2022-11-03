@@ -24,11 +24,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(cors());
+
+app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      'img-src': ["'self'", 'https: data:'],
+      'img-src': ["'self'", 'https: data: blob:'],
     },
   })
 );
