@@ -31,7 +31,7 @@ app.use(
     useDefaults: true,
     directives: {
       'img-src': ["'self'", 'https: data: blob:'],
-      'font-src': ['self', 'https: data:'],
+      'font-src': ["'self'", 'https: data:'],
     },
   })
 );
