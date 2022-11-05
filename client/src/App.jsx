@@ -25,7 +25,6 @@ function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log('navigate', pathname);
 
   useEffect(() => {
     dispatch(userLoggedIn());
@@ -45,16 +44,19 @@ function App() {
           path='signup'
           element={isLoggedIn ? <Navigate to='/' /> : <RegisterPage />}
         />
+        <Route
+          path='forgotPassword'
+          element={isLoggedIn ? <Navigate to='/' /> : <ForgotPasswordPage />}
+        />
+        <Route path='about' element={<AboutPage />} />
 
         <Route element={<PrivateRoute />}>
           <Route index element={<HomePage />} />
-          <Route path='about' element={<AboutPage />} />
           <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' exact element={<Profile />} />
           <Route path='profile/:username' element={<UserProfile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='logout' element={<Logout />} />
-          <Route path='forgotPassword' element={<ForgotPasswordPage />} />
           <Route path='settings' element={<Settings />} />
           <Route path='notification' element={<Notification />} />
         </Route>

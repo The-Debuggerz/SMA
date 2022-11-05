@@ -45,7 +45,7 @@ const Login = () => {
 
   return (
     <>
-      <div className='flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+      <div className='relative flex items-center h-80vh justify-center sm:px-6 lg:px-8'>
         <div className='w-full max-w-md space-y-8'>
           <div>
             <img className='mx-auto h-12 w-auto' src={logo} alt='SMA Logo' />
@@ -119,7 +119,7 @@ const Login = () => {
             <div className='ml-2 block text-sm text-gray-900'>
               Don't have an account? &nbsp;
               <Link
-                to='/sign-up'
+                to='/signup'
                 className='font-medium text-indigo-600 hover:text-indigo-500'
               >
                 Sign up

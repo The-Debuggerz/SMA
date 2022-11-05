@@ -63,7 +63,7 @@ export const userprofile = createAsyncThunk(
       });
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
 
       if (res.status === 401) {
         throw new Error(res.error);
