@@ -7,8 +7,6 @@ const HomePage = () => {
   const { isLoggedIn, loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  console.log('isLoggedIn', isLoggedIn);
-
   let fetchPost = async () => {
     try {
       let res = await fetch('/api/posts', {
@@ -35,8 +33,8 @@ const HomePage = () => {
     }
   }, [isLoggedIn]);
 
-  console.log('posts-data', posts);
-  console.log('isLoggedIn', isLoggedIn);
+  // console.log('posts-data', posts);
+  // console.log('isLoggedIn', isLoggedIn);
 
   return (
     <>
@@ -45,10 +43,9 @@ const HomePage = () => {
           Welcome To <b className='text-yellow-300'>The Debuggers</b>
         </h1>
         <div className='w-2/3'>
-        <AddPost/>
+          <AddPost />
         </div>
         <div>
-        
           <span className='text-xl'>Posts</span>
         </div>
         <div className='ui items'>

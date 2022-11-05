@@ -3,7 +3,7 @@ import logo from '../Logo/logo.png';
 
 const Settings = () => {
   return (
-    <div className='flex justify-center mt-40'>
+    <div className='flex justify-center mt-12 mb-12'>
       <form className='w-full max-w-lg'>
         <div className='flex justify-center pb-5 text-3xl'>
           <h2>General User Information</h2>

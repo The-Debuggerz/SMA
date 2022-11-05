@@ -1,12 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [userData, setUserData] = useState(0);
-
   let navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const userProfile = async () => {
@@ -21,7 +18,7 @@ const Profile = () => {
         });
 
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setUserData(data);
 
         if (res.status === 401) {
@@ -35,11 +32,9 @@ const Profile = () => {
     userProfile();
   }, []);
 
-  console.log(isLoggedIn);
-
   return (
     <Fragment>
-      <div className='main-profile grid place-items-center'>
+      <div className='main-profile grid place-items-center h-80vh'>
         <div className='user-profile h-4/4 m-4  w-11/12 bg-red-600 rounded-2xl py-12'>
           <div className='profile-info'>
             <div className='profile-info-2 ml-4 mt-4 flex items-center justify-evenly'>
