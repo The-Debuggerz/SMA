@@ -1,25 +1,27 @@
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
 import { followUser, unFollowUser, userprofile } from '../../Store/FollowSlice';
 
 const UserProfile = () => {
-  const { following, followers, followStatus, name } = useSelector(
+  const { following, followers, followStatus, name, username } = useSelector(
     (state) => state.follow
   );
-  let { username } = useParams();
   const dispatch = useDispatch();
 
+  let { userbyname } = useParams();
+
   useEffect(() => {
-    dispatch(userprofile(username));
+    dispatch(userprofile(userbyname));
   }, []);
 
-  let unBtn = () => {
+  // To follow : unfollow user (toggle) button
+  let toggleBtn = () => {
     if (followStatus) {
-      dispatch(unFollowUser(username));
+      dispatch(unFollowUser(userbyname));
     } else {
-      dispatch(followUser(username));
+      dispatch(followUser(userbyname));
     }
   };
 
@@ -42,18 +44,18 @@ const UserProfile = () => {
                   <div className='profile-name text-white '>
                     <h1 className='text-4xl'>{name || 'The Debuggers'}</h1>
 
-                    <h3 className='text-xl'>CEO / Founder</h3>
+                    <h3 className='text-xl cursor-pointer'>{'@' + username}</h3>
                   </div>
 
                   <div className='user-options flex ml-4 items-center justify-between mr-4'>
                     <div className='btn p-1flex items-center justify-center mr-4'>
-                      <button className='fbtn ml-2 flex rounded-lg bg-yellow-400 p-2'>
+                      <button
+                        className='fbtn ml-2 flex rounded-lg bg-yellow-400 p-2'
+                        onClick={() => toggleBtn()}
+                      >
                         <UserPlusIcon
                           className='h-6 w-6 mr-1'
                           aria-hidden='true'
-                          type='follow'
-                          // onClick={() => dispatch(followUser(username))}
-                          onClick={() => unBtn()}
                         />
                         {followStatus ? 'Unfollow' : 'Follow'}
                       </button>
