@@ -1,3 +1,5 @@
+const os = require('node:os');
+
 const { Post } = require('../models/index');
 const { User } = require('../models/index');
 
@@ -68,7 +70,7 @@ exports.userPosts = async (req, res) => {
       res.json(data);
     });
   } else {
-    res.status(401).json({ message: 'unauthoroze' });
+    res.status(401).json({ message: 'unauthorize' });
   }
 };
 
@@ -132,4 +134,12 @@ exports.unFollow = async (req, res) => {
       message: 'Failed to unfollow user',
     });
   }
+};
+
+exports.userDevice = async (req, res) => {
+  let arch = os.arch();
+  let type = os.type();
+  let hostname = os.hostname();
+
+  return res.status(200).json({ arch, type, hostname });
 };

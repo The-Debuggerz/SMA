@@ -7,17 +7,17 @@
 - [x] Add HomePage - React
 - [x] Add Login Page - React
 - [x] Add Register Page - React
-- [ ] Add Reset Password Page - React
-- [ ] Add About Page - React
+- [x] Add Reset Password Page - React
+- [x] Add About Page - React
 
 ## Back-End
 
 - [x] Add Routes - Node
 - [x] Setup MongoDB - Node
-- [ ] Implement Models MongoDB - Node
+- [x] Implement Models MongoDB - Node
 - [x] Connect MongoDB - Node
-- [ ] Initialize MongoDB To Login & Register - Node
-- [ ] Authentication - Node
+- [x] Initialize MongoDB To Login & Register - Node
+- [x] Authentication - Node
 - [ ] Authorization - Node
 
 ## `Note` Using <a href="https://vitejs.dev/">Vite</a> tool for React to get fast workflow
