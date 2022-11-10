@@ -82,6 +82,7 @@ const followSlice = createSlice({
     following: [],
     followers: [],
     name: '',
+    username: '',
     posts: 0,
     followStatus: false,
     loading: true,
@@ -96,7 +97,8 @@ const followSlice = createSlice({
       state.loading = false;
       state.following = payload.user.following;
       state.followers = payload.user.followers;
-      state.name = payload.username;
+      state.name = payload.user.name;
+      state.username = payload.user.username;
       state.followStatus = payload.followStatus;
     },
 

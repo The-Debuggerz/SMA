@@ -54,7 +54,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path='admin' element={<AdminDashBoard />} />
           <Route path='profile' exact element={<Profile />} />
-          <Route path='profile/:username' element={<UserProfile />} />
+          <Route path='profile/:userbyname' element={<UserProfile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='logout' element={<Logout />} />
           <Route path='settings' element={<Settings />} />

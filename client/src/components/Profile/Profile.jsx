@@ -52,7 +52,9 @@ const Profile = () => {
                     <h1 className='text-4xl'>
                       {userData ? userData.name : 'The Debuggers'}
                     </h1>
-                    <h3 className='text-xl'>CEO / Founder</h3>
+                    <h3 className='text-xl cursor-pointer'>
+                      {userData ? '@' + userData.username : 'The Debuggers'}
+                    </h3>
                   </div>
                 </div>
 
