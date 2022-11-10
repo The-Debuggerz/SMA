@@ -1,6 +1,5 @@
 const axios = require('axios');
 const qs = require('qs');
-const mongoose = require('mongoose');
 const { User } = require('../models/index');
 
 exports.getGoogleOAuthToken = async ({ code }) => {
@@ -14,8 +13,6 @@ exports.getGoogleOAuthToken = async ({ code }) => {
     grant_type: 'authorization_code',
   };
 
-  console.log(values);
-
   try {
     const res = await axios.post(url, qs.stringify(values), {
       Headers: {
@@ -25,6 +22,7 @@ exports.getGoogleOAuthToken = async ({ code }) => {
 
     return res.data;
   } catch (error) {
+    console.error(error);
     console.log(error.response.data.error, 'failed to fetch google oauth');
 
     throw new Error(error.message);
@@ -33,14 +31,11 @@ exports.getGoogleOAuthToken = async ({ code }) => {
 
 exports.getGoogleUser = async ({ id_token, access_token }) => {
   try {
-    const res = await axios.get(
-      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
-      {
-        Headers: {
-          Authorization: `Bearer ${id_token}`,
-        },
-      }
-    );
+    const res = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`, {
+      Headers: {
+        Authorization: `Bearer ${id_token}`,
+      },
+    });
 
     return res.data;
   } catch (error) {
