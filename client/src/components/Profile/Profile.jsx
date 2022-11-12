@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
@@ -33,12 +33,11 @@ const Profile = () => {
   }, []);
 
   return (
-    <Fragment>
-      <div className='main-profile grid place-items-center h-80vh'>
-        <div className='user-profile h-4/4 m-4  w-11/12 bg-red-600 rounded-2xl py-12'>
+      <div className='grid place-items-center px-4 h-full -mt-4'>
+        <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12'>
           <div className='profile-info'>
-            <div className='profile-info-2 ml-4 mt-4 flex items-center justify-evenly'>
-              <div className='profile-img mr-2'>
+            <div className='ml-4 flex items-center justify-evenly'>
+              <div className='mr-2'>
                 <img
                   className='rounded-full w-48 h-48'
                   src='https://images.hdqwalls.com/wallpapers/harley-quinn-vector-portrait-4m.jpg'
@@ -46,9 +45,9 @@ const Profile = () => {
                 />
               </div>
 
-              <div className='mujib flex-col'>
-                <div className='profile-details flex items-center'>
-                  <div className='profile-name text-white '>
+              <div className='flex-col'>
+                <div className='flex items-center'>
+                  <div className='text-white '>
                     <h1 className='text-4xl'>
                       {userData ? userData.name : 'The Debuggers'}
                     </h1>
@@ -58,7 +57,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <div className='profile-items flex mt-4'>
+                <div className='flex mt-4'>
                   <div className='btn flex items-center justify-center'>
                     <button className='flex'>
                       <span className='text-xl'>
@@ -75,7 +74,7 @@ const Profile = () => {
                     </button>
                   </div>
 
-                  <div className='btnflex items-center justify-center ml-8'>
+                  <div className='items-center justify-center ml-8'>
                     <button className='flex'>
                       <span className='text-xl'>
                         <b>{userData.followers?.length || 0} </b>Followers
@@ -87,11 +86,10 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className='user-profile-posts h-auto w-5/6 bg-red-600 rounded-2xl py-12'>
+        <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-12'>
           <h1 className='text-center text-4xl'>No Post Found</h1>
         </div>
       </div>
-    </Fragment>
   );
 };
 

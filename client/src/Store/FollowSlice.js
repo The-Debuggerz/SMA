@@ -66,12 +66,13 @@ export const userprofile = createAsyncThunk(
       // console.log(data);
 
       if (res.status === 401) {
-        throw new Error(res.error);
+        // console.log(data.message);
+        throw new Error(data.message);
       }
 
       return data;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 );
@@ -86,6 +87,7 @@ const followSlice = createSlice({
     posts: 0,
     followStatus: false,
     loading: true,
+    // message: '',
   },
   extraReducers: {
     // User Profile
@@ -102,8 +104,9 @@ const followSlice = createSlice({
       state.followStatus = payload.followStatus;
     },
 
-    [userprofile.rejected]: (state) => {
+    [userprofile.rejected]: (state, { error }) => {
       state.loading = false;
+      state.message = error.message;
     },
 
     // Follow User

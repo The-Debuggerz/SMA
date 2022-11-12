@@ -3,7 +3,7 @@ import React from 'react';
 const AdminDashBoard = () => {
   return (
     <>
-      <section className='text-gray-400 bg-gray-900 body-font h-80vh'>
+      <section className='text-gray-400 bg-gray-900 body-font min-h-full grid place-items-center'>
         <div className='container px-5 py-24 mx-auto'>
           <div className='flex flex-col text-center w-full mb-20'>
             <h1 className='sm:text-3xl text-2xl font-medium title-font mb-4 text-white'>
