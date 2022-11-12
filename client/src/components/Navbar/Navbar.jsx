@@ -24,7 +24,7 @@ export default function Navbar() {
   // console.log('islogin-navbar:', isLoggedIn);
   return (
     <>
-      <Disclosure as='nav' className='bg-gray-800 h-10vh'>
+      <Disclosure as='nav' className='bg-gray-800'>
         {({ open }) => (
           <>
             <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>

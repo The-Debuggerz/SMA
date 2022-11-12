@@ -124,11 +124,19 @@ const AboutPage = () => {
                 <img
                   alt='team'
                   className='w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4'
-                  src='https://dummyimage.com/98x98'
+                  src='https://avatars.githubusercontent.com/u/41836849?v=4'
                 />
                 <div className='flex-grow'>
-                  <h2 className='text-white title-font font-medium'>Unknown</h2>
-                  <p className='text-gray-600'>UX Researcher</p>
+                  <h2 className='text-white title-font font-medium'>
+                    <a
+                      href='https://github.com/Deep-Ramani'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      Deep Ramani
+                    </a>
+                  </h2>
+                  <p className='text-gray-600'>Front-End Developer</p>
                 </div>
               </div>
             </div>
