@@ -144,6 +144,6 @@ exports.logout = (req, res) => {
   const cookies = req.cookies;
   console.log('cookies:', cookies);
 
-  res.clearCookie('jwtoken', { domain: process.env.ORIGIN, path: '/' });
+  res.clearCookie('jwtoken', { domain: process.env.DOMAIN, path: '/' });
   res.status(200).json({ message: 'User Logout', isLoggedIn: false, token: null });
 };
