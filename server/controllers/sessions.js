@@ -10,7 +10,7 @@ exports.googleOAuthHandler = async (req, res) => {
 
     //get the id and access token with the code
     const { id_token, access_token } = await getGoogleOAuthToken({ code });
-    console.log({ id_token, access_token });
+    console.log('🚀 ~ sessions.js ~ line 13 ~ id_token, access_token', { id_token, access_token });
 
     const googleUser = await getGoogleUser({ id_token, access_token });
     console.log('googleUser', googleUser);
@@ -34,7 +34,7 @@ exports.googleOAuthHandler = async (req, res) => {
         new: true,
       }
     );
-    console.log('🚀 ~ sessions.js ~ line 50 ~ user', user);
+    console.log('🚀 ~ sessions.js ~ line 37 ~ user', user);
 
     const accessToken = jwt.sign({ _id: user._id }, process.env.PRIVATE_KEY, {
       expiresIn: '1h',
@@ -56,7 +56,7 @@ exports.googleOAuthHandler = async (req, res) => {
       res.cookie('jwtoken', accessToken, {
         maxAge: 3600000, // 1 hr
         httpOnly: true,
-        domain: 'localhost',
+        domain: process.env.ORIGIN,
         path: '/',
         sameSite: 'lax',
         secure: false,
