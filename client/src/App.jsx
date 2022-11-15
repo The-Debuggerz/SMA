@@ -13,14 +13,12 @@ import AboutPage from './components/AboutPage/AboutPage';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Login from './components/Login/Login';
-import RegisterPage from './components/RegisterPage/RegisterPage';
+import SignUp from './components/SignUp/SignUp';
 import Logout from './components/Logout/Logout';
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
 import Settings from './components/Settings/Settings';
 import Notification from './components/Notification/Notification';
 import FooterPage from './components/FooterPage/FooterPage';
-
-import Loader from './components/Loader/Loader';
 
 import Error404 from './components/ErrorPages/404';
 import Error500 from './components/ErrorPages/500';
@@ -28,8 +26,8 @@ import Error500 from './components/ErrorPages/500';
 import './App.css';
 
 function App() {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { loading } = useSelector((state) => state.follow);
+  const { isLoggedIn, loading } = useSelector((state) => state.auth);
+  const { userProfileLoading } = useSelector((state) => state.follow);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -50,7 +48,7 @@ function App() {
           />
           <Route
             path='signup'
-            element={isLoggedIn ? <Navigate to='/' /> : <RegisterPage />}
+            element={isLoggedIn ? <Navigate to='/' /> : <SignUp />}
           />
           <Route
             path='forgotPassword'
@@ -72,7 +70,7 @@ function App() {
           <Route path='/f' element={<Error500 />} />
           <Route path='*' element={<Error404 />} />
         </Routes>
-        {!loading && pathname !== '/' && <FooterPage />}
+        {!loading && !userProfileLoading && pathname !== '/' && <FooterPage />}
       </section>
     </>
   );

@@ -6,6 +6,9 @@ module.exports = {
       height: {
         '80per': '80%',
       },
+      colors: {
+        'google-clr': '#4285f4',
+      },
     },
   },
   plugins: [],

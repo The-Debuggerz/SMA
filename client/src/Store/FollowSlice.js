@@ -86,17 +86,17 @@ const followSlice = createSlice({
     username: '',
     posts: 0,
     followStatus: false,
-    loading: true,
+    userProfileLoading: true,
     // message: '',
   },
   extraReducers: {
     // User Profile
     [userprofile.pending]: (state) => {
-      state.loading = true;
+      state.userProfileLoading = true;
     },
 
     [userprofile.fulfilled]: (state, { payload }) => {
-      state.loading = false;
+      state.userProfileLoading = false;
       state.following = payload.user.following;
       state.followers = payload.user.followers;
       state.name = payload.user.name;
@@ -105,40 +105,40 @@ const followSlice = createSlice({
     },
 
     [userprofile.rejected]: (state, { error }) => {
-      state.loading = false;
+      state.userProfileLoading = false;
       state.message = error.message;
     },
 
     // Follow User
     [followUser.pending]: (state) => {
-      state.loading = true;
+      state.userProfileLoading = true;
     },
 
     [followUser.fulfilled]: (state, { payload }) => {
-      state.loading = false;
+      state.userProfileLoading = false;
       state.following = payload.target.following;
       state.followers = payload.target.followers;
       state.followStatus = payload.followStatus;
     },
 
     [followUser.rejected]: (state) => {
-      state.loading = false;
+      state.userProfileLoading = false;
     },
 
     // Unfollow User
     [unFollowUser.pending]: (state) => {
-      state.loading = true;
+      state.userProfileLoading = true;
     },
 
     [unFollowUser.fulfilled]: (state, { payload }) => {
-      state.loading = false;
+      state.userProfileLoading = false;
       state.following = payload.target.following;
       state.followers = payload.target.followers;
       state.followStatus = payload.followStatus;
     },
 
     [unFollowUser.rejected]: (state) => {
-      state.loading = false;
+      state.userProfileLoading = false;
     },
   },
 });
