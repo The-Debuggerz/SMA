@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ const UserProfile = () => {
     name,
     username,
     message,
-    loading,
+    userProfileLoading,
   } = useSelector((state) => state.follow);
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const UserProfile = () => {
   };
 
   console.log('message', message);
-  console.log('loading', loading);
+  // console.log('userProfileLoading', userProfileLoading);
   return (
     <>
       {message && (
@@ -40,7 +40,7 @@ const UserProfile = () => {
           <h1>{message.slice(7)}</h1>
         </div>
       )}
-      {!loading && !message && (
+      {!userProfileLoading && !message && (
         <div className='grid place-items-center h-full -mt-4'>
           <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12'>
             <div className='profile-info'>

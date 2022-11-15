@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import logo from '../Logo/logo.png';
-import { getGoogleOAuthURL } from '../../util';
+
+import GoogleLogin from '../GoogleLogin/GoogleButton';
 
 const defaultFormFields = {
   name: '',
@@ -12,7 +13,7 @@ const defaultFormFields = {
   confirmPassword: '',
 };
 
-const RegisterPage = () => {
+const SignUp = () => {
   let navigate = useNavigate();
 
   const [formFields, setFormFields] = useState(defaultFormFields);
@@ -64,8 +65,10 @@ const RegisterPage = () => {
             <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
               Create an account
             </h2>
-            <a href={getGoogleOAuthURL()}>Login with google</a>
           </div>
+
+          <GoogleLogin text={'Sign up with Google'} />
+
           <div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10'>
             <form
               className='mt-8 space-y-6'
@@ -199,4 +202,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default SignUp;

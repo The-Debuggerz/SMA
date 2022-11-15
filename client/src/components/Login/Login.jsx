@@ -6,6 +6,8 @@ import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { authActions } from '../../Store/AuthSlice';
 import logo from '../Logo/logo.png';
 
+import GoogleLogin from '../GoogleLogin/GoogleButton';
+
 const Login = () => {
   const auth = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
@@ -53,7 +55,10 @@ const Login = () => {
               Sign in to your account
             </h2>
           </div>
-          <div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10'>
+
+          <GoogleLogin text={'Sign in with Google'} />
+
+          <div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-8'>
             <form className='mt-8 space-y-6' method='POST' onSubmit={loginUser}>
               <input type='hidden' name='remember' defaultValue='true' />
               <div className='-space-y-px rounded-md shadow-sm'>
