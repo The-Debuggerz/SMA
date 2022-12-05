@@ -9,7 +9,8 @@
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node server/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server"
+    "build": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+    "NIXPACKS_TURBO_APP_NAME": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server"
   },
   "keywords": [],
   "author": "The Debuggers",
