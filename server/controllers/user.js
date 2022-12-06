@@ -1,4 +1,4 @@
-const os = require('node:os');
+const os = require('node');
 
 const { Post } = require('../models/index');
 const { User } = require('../models/index');
