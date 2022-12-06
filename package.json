@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "description": "Social Media App (SMA)",
   "main": "index.js",
+  "keywords": [],
+  "author": "The Debuggers",
+  "license": "ISC",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm run dev --prefix server",
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node server/server.js",
     "build": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server"
   },
-  "keywords": [],
-  "author": "The Debuggers",
-  "license": "ISC",
   "devDependencies": {
     "concurrently": "^7.4.0"
   }

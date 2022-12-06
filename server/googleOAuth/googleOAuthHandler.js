@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { getGoogleUser } = require('../service/googleOAuth');
+const { getGoogleUser } = require('./googleOAuth');
+const { User } = require('../models/index');
 
-const { getGoogleOAuthToken, findAndUpdateUser } = require('../service/googleOAuth');
+const { getGoogleOAuthToken, findAndUpdateUser } = require('./googleOAuth');
 
 exports.googleOAuthHandler = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ exports.googleOAuthHandler = async (req, res) => {
 
     //get the id and access token with the code
     const { id_token, access_token } = await getGoogleOAuthToken({ code });
-    console.log('🚀 ~ sessions.js ~ line 13 ~ id_token, access_token', { id_token, access_token });
+    // console.log('🚀 ~ sessions.js ~ line 14~ id_token, access_token', { id_token, access_token });
 
     const googleUser = await getGoogleUser({ id_token, access_token });
     console.log('googleUser', googleUser);
@@ -19,14 +20,27 @@ exports.googleOAuthHandler = async (req, res) => {
       return res.status(403).send('Google account is not verified');
     }
 
+    // Set username to google signup user
+    let userEmail = await googleUser.email;
+    let findAt = userEmail.indexOf('@');
+    let setUsername = userEmail.slice(0, findAt);
+
+    let usernameExists = User.findOne({ username: setUsername });
+    // console.log('🚀 ~ sessions.js ~ line 29 ~ usernameExists', usernameExists);
+
+    if (usernameExists) {
+      setUsername += Math.floor(Math.random() * 100);
+    }
+
     // upsert user
     const user = await findAndUpdateUser(
       {
         email: googleUser.email,
       },
       {
-        email: googleUser.email,
         name: googleUser.name,
+        username: setUsername,
+        email: googleUser.email,
         picture: googleUser.picture,
       },
       {
@@ -34,14 +48,14 @@ exports.googleOAuthHandler = async (req, res) => {
         new: true,
       }
     );
-    console.log('🚀 ~ sessions.js ~ line 37 ~ user', user);
+    // console.log('🚀 ~ sessions.js ~ line 51 ~ user', user);
 
     const accessToken = jwt.sign({ _id: user._id }, process.env.PRIVATE_KEY, {
       expiresIn: '1h',
     });
 
-    console.log('🚀 ~ sessions.js ~ line 44 accessToken', accessToken);
-    console.log('🚀 ~ sessions.js ~ line 45 user._id', user._id);
+    // console.log('🚀 ~ sessions.js ~ line 57 accessToken', accessToken);
+    // console.log('🚀 ~ sessions.js ~ line 58 user._id', user._id);
 
     jwt.verify(accessToken, process.env.PRIVATE_KEY, function (err, decoded) {
       if (err) {
@@ -49,8 +63,7 @@ exports.googleOAuthHandler = async (req, res) => {
         console.log('auth-decoded', decoded);
         return res.status(401).json({ name: 'TokenExpiredError', message: 'jwt expired' });
       }
-
-      console.log('🚀 ~ file: sessions.js ~ line 47 ~ decoded', decoded);
+      // console.log('🚀 ~ sessions.js ~ line 66 ~ decoded', decoded);
 
       // set cookies
       res.cookie('jwtoken', accessToken, {
@@ -65,7 +78,6 @@ exports.googleOAuthHandler = async (req, res) => {
       req.token = accessToken;
       req.user = decoded;
 
-      console.log('*****************************************');
       res.redirect(process.env.ORIGIN);
     });
   } catch (error) {

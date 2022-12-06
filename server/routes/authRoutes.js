@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { googleOAuthHandler } = require('../controllers/sessions');
+const { googleOAuthHandler } = require('../googleOAuth/googleOAuthHandler');
 const { login, signup, refresh, logout } = require('../controllers/auth');
 const { profile, profileByUsername, isLoggedIn, userPosts, follow, unFollow, deleteProfile } = require('../controllers/user');
 

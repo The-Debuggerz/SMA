@@ -17,7 +17,7 @@ exports.profile = async (req, res) => {
 exports.profileByUsername = async (req, res) => {
   console.log('req.user._id', req.user._id);
   try {
-    const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers']);
+    const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers, picture']);
 
     if (!user) {
       return res.status(401).json({ message: 'There is no profile for this user' });

@@ -47,7 +47,6 @@ exports.signup = async (req, res) => {
     _id: newUser.id,
     name: newUser.name,
     email: newUser.email,
-    // token: token,
   });
 };
 
@@ -113,7 +112,7 @@ exports.refresh = (req, res) => {
 
   jwt.verify(
     refreshToken,
-    process.env.REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_token_SECRET,
 
     async function (err, decoded) {
       if (err) return res.status(403).json({ message: 'Forbidden' });
@@ -142,7 +141,7 @@ exports.refresh = (req, res) => {
 
 exports.logout = (req, res) => {
   const cookies = req.cookies;
-  console.log('cookies:', cookies);
+  // console.log('cookies:', cookies);
 
   res.clearCookie('jwtoken', { domain: process.env.DOMAIN, path: '/' });
   res.status(200).json({ message: 'User Logout', isLoggedIn: false, token: null });
