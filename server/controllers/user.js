@@ -1,4 +1,4 @@
-const os = require('node');
+// const os = require('node');
 
 const { Post } = require('../models/index');
 const { User } = require('../models/index');
@@ -136,10 +136,10 @@ exports.unFollow = async (req, res) => {
   }
 };
 
-exports.userDevice = async (req, res) => {
-  let arch = os.arch();
-  let type = os.type();
-  let hostname = os.hostname();
+// exports.userDevice = async (req, res) => {
+//   let arch = os.arch();
+//   let type = os.type();
+//   let hostname = os.hostname();
 
-  return res.status(200).json({ arch, type, hostname });
-};
+//   return res.status(200).json({ arch, type, hostname });
+// };
