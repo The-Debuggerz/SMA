@@ -27,7 +27,7 @@ import './App.css';
 
 function App() {
   const { isLoggedIn, loading } = useSelector((state) => state.auth);
-  const { userProfileLoading } = useSelector((state) => state.follow);
+
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -38,41 +38,39 @@ function App() {
   // console.log(isLoggedIn);
 
   return (
-    <>
-      <section className='App h-full'>
-        <Navbar />
-        <Routes>
-          <Route
-            path='login'
-            element={isLoggedIn ? <Navigate to='/' /> : <Login />}
-          />
-          <Route
-            path='signup'
-            element={isLoggedIn ? <Navigate to='/' /> : <SignUp />}
-          />
-          <Route
-            path='forgotPassword'
-            element={isLoggedIn ? <Navigate to='/' /> : <ForgotPasswordPage />}
-          />
-          <Route path='about' element={<AboutPage />} />
+    <section>
+      <Navbar />
+      <Routes>
+        <Route
+          path='login'
+          element={isLoggedIn ? <Navigate to='/' /> : <Login />}
+        />
+        <Route
+          path='signup'
+          element={isLoggedIn ? <Navigate to='/' /> : <SignUp />}
+        />
+        <Route
+          path='forgotPassword'
+          element={isLoggedIn ? <Navigate to='/' /> : <ForgotPasswordPage />}
+        />
+        <Route path='about' element={<AboutPage />} />
 
-          <Route element={<PrivateRoute />}>
-            <Route index element={<HomePage />} />
-            <Route path='admin' element={<AdminDashBoard />} />
-            <Route path='profile' exact element={<Profile />} />
-            <Route path='profile/:userbyname' element={<UserProfile />} />
-            <Route path='chatPage' element={<ChatPage />} />
-            <Route path='logout' element={<Logout />} />
-            <Route path='settings' element={<Settings />} />
-            <Route path='notification' element={<Notification />} />
-          </Route>
+        <Route element={<PrivateRoute />}>
+          <Route index element={<HomePage />} />
+          <Route path='admin' element={<AdminDashBoard />} />
+          <Route path='profile' exact element={<Profile />} />
+          <Route path='profile/:userbyname' element={<UserProfile />} />
+          <Route path='chatPage' element={<ChatPage />} />
+          <Route path='logout' element={<Logout />} />
+          <Route path='settings' element={<Settings />} />
+          <Route path='notification' element={<Notification />} />
+        </Route>
 
-          <Route path='/f' element={<Error500 />} />
-          <Route path='*' element={<Error404 />} />
-        </Routes>
-        {!loading && !userProfileLoading && pathname !== '/' && <FooterPage />}
-      </section>
-    </>
+        <Route path='/f' element={<Error500 />} />
+        <Route path='*' element={<Error404 />} />
+      </Routes>
+      {!loading && pathname !== '/' && <FooterPage />}
+    </section>
   );
 }
 

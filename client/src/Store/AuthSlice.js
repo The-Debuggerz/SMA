@@ -2,21 +2,26 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Fetch IS User LoggedIn Or Not From Backend
 export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
-  let res = await fetch('/api/isLoggedIn', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    let res = await fetch('/api/isLoggedIn', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-  let data = await res.json();
-  // console.log('userLoggedIn:dispatchData', data);
-  return data;
+    let data = await res.json();
+    // console.log('userLoggedIn:dispatchData', data);
+    if (data) {
+      return data;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 
 // Logout User
-export const userLogout = createAsyncThunk('logout/user', async () => 
-{
+export const userLogout = createAsyncThunk('logout/user', async () => {
   console.log('logout function-authSlice');
   try {
     const res = await fetch('/api/logout', {
