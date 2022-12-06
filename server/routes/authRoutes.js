@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { googleOAuthHandler } = require('../controllers/sessions');
 const { login, signup, refresh, logout } = require('../controllers/auth');
-const { profile, profileByUsername, isLoggedIn, userPosts, follow, unFollow, deleteProfile, userDevice } = require('../controllers/user');
+const { profile, profileByUsername, isLoggedIn, userPosts, follow, unFollow, deleteProfile } = require('../controllers/user');
 
 const authentication = require('../middleware/check-auth');
 
@@ -35,6 +35,6 @@ router.put('/unfollow', unFollow);
 
 router.delete('/profile/delete', deleteProfile);
 
-router.get('/profile/settings', userDevice);
+// router.get('/profile/settings', userDevice);
 
 module.exports = router;
