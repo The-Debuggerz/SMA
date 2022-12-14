@@ -11,7 +11,7 @@
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node server/server.js",
-    "build": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server"
+    "build": "npm install --prefix client && npm run build --prefix client && npm install --prefix server"
   },
   "devDependencies": {
     "concurrently": "^7.4.0"
