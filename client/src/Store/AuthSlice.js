@@ -22,7 +22,7 @@ export const userLoggedIn = createAsyncThunk('isLoggedIn/user', async () => {
 
 // Logout User
 export const userLogout = createAsyncThunk('logout/user', async () => {
-  console.log('logout function-authSlice');
+  // console.log('logout function-authSlice');
   try {
     const res = await fetch('/api/logout', {
       method: 'GET',
@@ -34,7 +34,9 @@ export const userLogout = createAsyncThunk('logout/user', async () => {
       credentials: 'include',
     });
     const data = await res.json();
-    console.log('login-data:', data);
+    // console.log('login-data:', data);
+
+    return data;
 
     if (res.status !== 200) {
       throw new Error(res.error);
@@ -49,14 +51,14 @@ const authSlice = createSlice({
   initialState: {
     token: null,
     isLoggedIn: false,
-    id: null,
+    username: '',
     loading: true,
   },
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
-      state.id = action.payload._id;
+      // console.log('🚀 ~ AuthSlice.js:59 ~ action.payload', action.payload);
     },
 
     logout: (state) => {
@@ -72,6 +74,7 @@ const authSlice = createSlice({
     [userLoggedIn.fulfilled]: (state, action) => {
       state.loading = false;
       state.isLoggedIn = action.payload.isLoggedIn;
+      state.username = action.payload.username;
     },
     [userLoggedIn.rejected]: (state) => {
       state.loading = false;

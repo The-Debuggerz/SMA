@@ -1,43 +1,66 @@
-const os = require('node:os');
-
 const { Post } = require('../models/index');
 const { User } = require('../models/index');
 
-exports.profile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id).select('-password');
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en.json');
 
-    res.json(user);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('server error');
-  }
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo('en-US');
+
+// Status of loggedIn User
+exports.isLoggedIn = async (req, res) => {
+  let user = await User.findById(req.user._id).select('username');
+
+  return res.status(200).send({
+    message: 'Login Successfull',
+    isLoggedIn: true,
+    token: req.token,
+    username: user.username,
+  });
 };
 
-exports.profileByUsername = async (req, res) => {
-  console.log('req.user._id', req.user._id);
+// LoggedIN User Profile - && - Searched User Profile
+exports.userProfile = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers, picture']);
+    const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers', 'picture']);
 
     if (!user) {
       return res.status(401).json({ message: 'There is no profile for this user' });
     }
 
-    const currentUser = await User.findById(req.user._id);
-    let followStatus = false;
+    let posts = await Post.find({ user: user._id }).select(['_id', 'text', 'user', 'createdAt']).sort({ createdAt: -1 });
 
-    if (currentUser.following.includes(user._id) && user.followers.includes(req.user._id)) {
-      followStatus = true;
+    let postData = posts.map(post => {
+      return { ...post, time: timeAgo.format(post.createdAt) };
+    });
+
+    if (req.user._id !== user._id) {
+      const currentUser = await User.findById(req.user._id);
+      let followStatus = false;
+
+      if (currentUser.following.includes(user._id) && user.followers.includes(req.user._id)) {
+        followStatus = true;
+      }
+
+      return res.status(200).json({ user, followStatus, postData });
     }
 
-    res.json({ user, followStatus });
+    return res.status(200).json({ user, postData });
   } catch (error) {
     console.log(error);
     res.status(500).send('server error');
   }
 };
 
-// Delete Profile
+// Create Post
+exports.createPost = (req, res) => {
+  let text = req.body.text;
+  new Post({ text, user: req.user }).save();
+
+  return res.status(200).json({ message: 'Posted Successfully' });
+};
+
+// Delete User Profile
 exports.deleteProfile = async (req, res) => {
   try {
     const profile = await User.findOneAndRemove({ _id: req.user._id });
@@ -54,25 +77,9 @@ exports.deleteProfile = async (req, res) => {
   }
 };
 
-// Status of loggedIn User
-exports.isLoggedIn = async (req, res) => {
-  return res.status(200).send({
-    message: 'Login Successfull',
-    isLoggedIn: true,
-    token: req.token,
-  });
-};
-
-// User Posts
-exports.userPosts = async (req, res) => {
-  if (req.user) {
-    Post.find({}).then(data => {
-      res.json(data);
-    });
-  } else {
-    res.status(401).json({ message: 'unauthorize' });
-  }
-};
+// *******************************************************************************************
+// Follow And UnFollow User
+// *******************************************************************************************
 
 // Follow User
 exports.follow = async (req, res) => {
@@ -134,12 +141,4 @@ exports.unFollow = async (req, res) => {
       message: 'Failed to unfollow user',
     });
   }
-};
-
-exports.userDevice = async (req, res) => {
-  let arch = os.arch();
-  let type = os.type();
-  let hostname = os.hostname();
-
-  return res.status(200).json({ arch, type, hostname });
 };

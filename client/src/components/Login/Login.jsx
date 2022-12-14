@@ -43,7 +43,7 @@ const Login = () => {
     navigate('/');
   };
 
-  console.log('auth:', auth);
+  // console.log('auth:', auth);
 
   return (
     <>

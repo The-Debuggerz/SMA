@@ -3,15 +3,15 @@ import React from 'react';
 const AdminDashBoard = () => {
   return (
     <>
-      <section className='text-gray-400 bg-gray-900 body-font min-h-full grid place-items-center'>
+      <section className='text-gray-400 bg-gray-900 body-font grid place-items-center'>
         <div className='container px-5 py-24 mx-auto'>
           <div className='flex flex-col text-center w-full mb-20'>
             <h1 className='sm:text-3xl text-2xl font-medium title-font mb-4 text-white'>
               User Statistics
             </h1>
           </div>
-          <div className='flex flex-wrap -m-4 text-center'>
-            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+          <div className='flex flex-wrap -m-4 text-center w-2/4'>
+            <div className='p-4 md:w-2/4 sm:w-1/2 w-full'>
               <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -36,7 +36,7 @@ const AdminDashBoard = () => {
                 <p className='leading-relaxed'>New Users</p>
               </div>
             </div>
-            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+            <div className='p-4 md:w-2/4 sm:w-1/2 w-full'>
               <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   fill='none'
@@ -57,7 +57,7 @@ const AdminDashBoard = () => {
                 <p className='leading-relaxed'>Total Users</p>
               </div>
             </div>
-            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+            <div className='p-4 md:w-2/4 sm:w-1/2 w-full'>
               <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -82,7 +82,7 @@ const AdminDashBoard = () => {
                 <p className='leading-relaxed'>Posts</p>
               </div>
             </div>
-            <div className='p-4 md:w-1/4 sm:w-1/2 w-full'>
+            <div className='p-4 md:w-2/4 sm:w-1/2 w-full'>
               <div className='border-2 border-gray-800 px-4 py-6 rounded-lg'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

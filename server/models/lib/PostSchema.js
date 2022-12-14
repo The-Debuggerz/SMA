@@ -1,13 +1,20 @@
 const { Schema, model } = require('mongoose');
 
-const Post = new Schema(
+const PostSchema = new Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    sTitle: String,
-    sContent: String,
-    sImage: String,
+    text: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
-  { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = model('posts', Post);
+module.exports = model('Post', PostSchema);

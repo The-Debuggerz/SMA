@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
+
 import Notification from '../Notification/Notification';
 import {
   Bars3Icon,
@@ -15,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar() {
+export default function Navbar(props) {
   let isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const userLogout = () => {
@@ -70,7 +71,10 @@ export default function Navbar() {
                           <Link className='nav__item' to='/'>
                             <span className='nav__itemLineTwo'>Home</span>
                           </Link>
-                          <Link className='nav__item' to='/profile'>
+                          <Link
+                            className='nav__item'
+                            to={`/profile/${props.username}`}
+                          >
                             <span className='nav__itemLineTwo'>Profile</span>
                           </Link>
                           <Link className='nav__item' to='/admin'>

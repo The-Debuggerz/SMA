@@ -2,54 +2,52 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AddPost from '../AddPost/AddPost';
+
 const HomePage = () => {
   const [posts, setPost] = useState([]);
-  const { isLoggedIn, loading } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+  // const { isLoggedIn, loading } = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
 
-  let fetchPost = async () => {
-    try {
-      let res = await fetch('/api/posts', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      let data = await res.json();
+  // let fetchPost = async () => {
+  //   try {
+  //     let res = await fetch('/api/getUserPosts', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     let data = await res.json();
 
-      if (isLoggedIn) {
-        setPost(data);
-      } else {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (isLoggedIn) {
+  //       setPost(data);
+  //     } else {
+  //       navigate('/login');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchPost();
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     fetchPost();
+  //   }
+  // }, [isLoggedIn]);
 
   // console.log('posts-data', posts);
-  // console.log('isLoggedIn', isLoggedIn);
+  // // console.log('isLoggedIn', isLoggedIn);
 
   return (
-    <>
-      <div className='grid place-items-center h-screen w-screen'>
-        <h1 className='font-bold text-5xl'>
-          Welcome To <b className='text-yellow-300'>The Debuggers</b>
-        </h1>
-        <div className='w-2/3'>
-          <AddPost />
-        </div>
-        <div>
-          <span className='text-xl'>Posts</span>
-        </div>
-        <div className='ui items'>
-          {posts.map((post, i) => {
+    <div className='grid place-items-center h-screen w-screen'>
+      <div className='w-2/3'>
+        <AddPost />
+      </div>
+      <div>
+        <span className='text-xl'>Posts</span>
+      </div>
+      <div className='ui items'>
+        {posts.length > 1 &&
+          posts.map((post, i) => {
             return (
               <div className='item' key={post}>
                 <a className='ui tiny image'>
@@ -70,9 +68,8 @@ const HomePage = () => {
               </div>
             );
           })}
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

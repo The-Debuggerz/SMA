@@ -1,45 +1,48 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLoggedIn } from './Store/AuthSlice';
-import { useLocation } from 'react-router-dom';
 
-import Navbar from './components/Navbar/Navbar';
-import HomePage from './components/HomePage/HomePage';
-import Profile from './components/Profile/Profile';
-import UserProfile from './components/Profile/UserProfile';
-import ChatPage from './components/ChatPage/ChatPage';
 import AboutPage from './components/AboutPage/AboutPage';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import Login from './components/Login/Login';
-import SignUp from './components/SignUp/SignUp';
-import Logout from './components/Logout/Logout';
-import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
-import Settings from './components/Settings/Settings';
-import Notification from './components/Notification/Notification';
-import FooterPage from './components/FooterPage/FooterPage';
-
+import ChatPage from './components/ChatPage/ChatPage';
 import Error404 from './components/ErrorPages/404';
 import Error500 from './components/ErrorPages/500';
+import FooterPage from './components/FooterPage/FooterPage';
+import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswordPage';
+import HomePage from './components/HomePage/HomePage';
+import Loader from './components/Loader/Loader';
+import Login from './components/Login/Login';
+import Logout from './components/Logout/Logout';
+import Navbar from './components/Navbar/Navbar';
+import Notification from './components/Notification/Notification';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import Settings from './components/Settings/Settings';
+import SignUp from './components/SignUp/SignUp';
+import UserProfile from './components/Profile/UserProfile';
 
 import './App.css';
 
 function App() {
-  const { isLoggedIn, loading } = useSelector((state) => state.auth);
-
+  const { isLoggedIn, loading, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(userLoggedIn());
   }, []);
 
+  if (loading) {
+    <Loader />;
+  }
+
+  // console.log('🚀 ~ file: App.jsx:40 ~ App ~ username', username);
   // console.log(isLoggedIn);
 
   return (
-    <section>
-      <Navbar />
+    <div className='conatainer min-h-screen mx-auto'>
+      <Navbar username={username} />
       <Routes>
         <Route
           path='login'
@@ -58,7 +61,6 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route index element={<HomePage />} />
           <Route path='admin' element={<AdminDashBoard />} />
-          <Route path='profile' exact element={<Profile />} />
           <Route path='profile/:userbyname' element={<UserProfile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='logout' element={<Logout />} />
@@ -70,7 +72,7 @@ function App() {
         <Route path='*' element={<Error404 />} />
       </Routes>
       {!loading && pathname !== '/' && <FooterPage />}
-    </section>
+    </div>
   );
 }
 
