@@ -1,5 +1,5 @@
-const { Post } = require('../models/index');
-const { User } = require('../models/index');
+const { Post, User, Likes } = require('../models/index');
+// const redis = require('../utils/lib/redis');
 
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en.json');
@@ -7,19 +7,26 @@ const en = require('javascript-time-ago/locale/en.json');
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
-// Status of loggedIn User
+// ************************************************************************************************
+// 🚀 Status of loggedIn User 🚀
+// ************************************************************************************************
+
 exports.isLoggedIn = async (req, res) => {
   let user = await User.findById(req.user._id).select('username');
 
   return res.status(200).send({
     message: 'Login Successfull',
     isLoggedIn: true,
+    _id: req.user._id,
     token: req.token,
     username: user.username,
   });
 };
 
-// LoggedIN User Profile - && - Searched User Profile
+// ************************************************************************************************
+// 🚀 Logged in User Profile - && - Searched User Profile 🚀
+// ************************************************************************************************
+
 exports.userProfile = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.id }).select(['name', 'username', 'following', 'followers', 'picture']);
@@ -29,11 +36,9 @@ exports.userProfile = async (req, res) => {
     }
 
     let posts = await Post.find({ user: user._id }).select(['_id', 'text', 'user', 'createdAt']).sort({ createdAt: -1 });
+    const postData = await processPostData(posts, req.user._id);
 
-    let postData = posts.map(post => {
-      return { ...post, time: timeAgo.format(post.createdAt) };
-    });
-
+    // Return User Profile Search via params
     if (req.user._id !== user._id) {
       const currentUser = await User.findById(req.user._id);
       let followStatus = false;
@@ -44,7 +49,7 @@ exports.userProfile = async (req, res) => {
 
       return res.status(200).json({ user, followStatus, postData });
     }
-
+    // else return logged in user profile
     return res.status(200).json({ user, postData });
   } catch (error) {
     console.log(error);
@@ -52,33 +57,68 @@ exports.userProfile = async (req, res) => {
   }
 };
 
-// Create Post
-exports.createPost = (req, res) => {
-  let text = req.body.text;
-  new Post({ text, user: req.user }).save();
+// ************************************************************************************************
+// 🚀 Helper Function 🚀
+// ************************************************************************************************
 
-  return res.status(200).json({ message: 'Posted Successfully' });
+const processPostData = async (userPost, userId) => {
+  const postData = await Promise.all(
+    userPost.map(async post => {
+      // Use the Mongoose countDocuments function to count the number of likes for the post
+      const likeCount = await Likes.countDocuments({ post: post._id });
+
+      // Check if the current user has liked the post
+      const liked = await Likes.exists({
+        user: userId,
+        post: post._id,
+      });
+
+      let likeStatus;
+      if (liked !== null) {
+        likeStatus = true;
+      } else {
+        likeStatus = false;
+      }
+
+      return { ...post, likeCount, liked, likeStatus, time: timeAgo.format(post.createdAt) };
+    })
+  );
+
+  return postData;
 };
 
-// Delete User Profile
-exports.deleteProfile = async (req, res) => {
-  try {
-    const profile = await User.findOneAndRemove({ _id: req.user._id });
+// ************************************************************************************************
+// 🚀 Get Following Users Post 🚀
+// ************************************************************************************************
 
-    if (!profile) {
-      console.log('There is no profile for this user');
-      return res.status(401).json({ message: 'There is no profile for this user' });
-    }
+exports.getFollowingUsersPost = async (req, res) => {
+  let currentUser = await User.findById(req.user._id);
 
-    res.json({ message: 'user profile deleted' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('server error');
-  }
+  // Redis Cache
+  // const redisCache = await redis.get(req.user._id);
+
+  // if (redisCache) {
+  //   console.log('🚀🚀 from cache');
+
+  //   return res.status(200).json({
+  //     user: JSON.parse(redisCache),
+  //     from: 'redis',
+  //   });
+  // }
+
+  let followingUsersPost = await Post.find({
+    $or: [{ user: { $in: currentUser.following } }, { user: req.user._id }],
+  })
+    .populate('user', '_id name username')
+    .sort({ createdAt: -1 });
+
+  const postData = await processPostData(followingUsersPost, req.user._id);
+
+  return res.status(200).json({ user: postData, from: 'remote' });
 };
 
 // *******************************************************************************************
-// Follow And UnFollow User
+// 🚀 Follow / UnFollow User 🚀
 // *******************************************************************************************
 
 // Follow User
@@ -140,5 +180,56 @@ exports.unFollow = async (req, res) => {
       error: true,
       message: 'Failed to unfollow user',
     });
+  }
+};
+
+// ************************************************************************************************
+// 🚀 Like / Unlike Post 🚀
+// ************************************************************************************************
+
+// Like a post
+exports.like = async (req, res) => {
+  try {
+    const like = new Likes({
+      user: req.user._id,
+      post: req.body.postID,
+    });
+    await like.save();
+    res.send(like);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Unlike a post
+exports.unlike = async (req, res) => {
+  try {
+    await Likes.deleteOne({
+      user: req.user._id,
+      post: req.body.postID,
+    });
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// ************************************************************************************************
+// 🚀 Delete User Profile 🚀
+// ************************************************************************************************
+
+exports.deleteProfile = async (req, res) => {
+  try {
+    const profile = await User.findOneAndRemove({ _id: req.user._id });
+
+    if (!profile) {
+      console.log('There is no profile for this user');
+      return res.status(401).json({ message: 'There is no profile for this user' });
+    }
+
+    res.json({ message: 'user profile deleted' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('server error');
   }
 };

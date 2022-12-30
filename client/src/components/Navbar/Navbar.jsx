@@ -16,13 +16,13 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar(props) {
-  let isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+export default function Navbar() {
+  let { isLoggedIn, username } = useSelector((state) => state.auth);
 
   const userLogout = () => {
     <Logout />;
   };
-  // console.log('islogin-navbar:', isLoggedIn);
+
   return (
     <>
       <Disclosure as='nav' className='bg-gray-800'>
@@ -73,7 +73,7 @@ export default function Navbar(props) {
                           </Link>
                           <Link
                             className='nav__item'
-                            to={`/profile/${props.username}`}
+                            to={`/profile/${username}`}
                           >
                             <span className='nav__itemLineTwo'>Profile</span>
                           </Link>
@@ -144,7 +144,7 @@ export default function Navbar(props) {
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
+                              <Link
                                 href='/profile'
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
@@ -152,12 +152,12 @@ export default function Navbar(props) {
                                 )}
                               >
                                 Profile
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
+                              <Link
                                 href='/settings'
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
@@ -165,7 +165,7 @@ export default function Navbar(props) {
                                 )}
                               >
                                 Settings
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                           <Menu.Item>

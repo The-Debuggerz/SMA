@@ -1,11 +1,21 @@
 const { Schema, model } = require('mongoose');
 
-const Likes = Schema(
+const LikeSchema = new Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    iPostId: { type: Schema.Types.ObjectId, ref: 'posts' },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    post: {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+      required: true,
+    },
   },
-  { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = model('likes', Likes);
+module.exports = model('Like', LikeSchema);

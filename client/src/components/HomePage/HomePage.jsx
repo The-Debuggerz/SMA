@@ -1,73 +1,71 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import AddPost from '../AddPost/AddPost';
+import {
+  useFollowingUsersPostQuery,
+  useLikeMutation,
+  useUnlikeMutation,
+  useDeletePostMutation,
+} from '../../Store/UsersPostApi';
+
+import UserPost from '../UserPost/UserPost';
+import Loader from '../Loader/Loader';
+import DropDown from '../UserPost/DropDown';
 
 const HomePage = () => {
-  const [posts, setPost] = useState([]);
-  // const { isLoggedIn, loading } = useSelector((state) => state.auth);
-  // const navigate = useNavigate();
+  const { id } = useSelector((state) => state.auth);
+  const { data, isLoading, error, isFetching } = useFollowingUsersPostQuery(
+    null,
+    {
+      pollingInterval: 5000,
+    }
+  );
 
-  // let fetchPost = async () => {
-  //   try {
-  //     let res = await fetch('/api/getUserPosts', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     let data = await res.json();
+  const [deletePost] = useDeletePostMutation();
+  const [like] = useLikeMutation();
+  const [unlike] = useUnlikeMutation();
 
-  //     if (isLoggedIn) {
-  //       setPost(data);
-  //     } else {
-  //       navigate('/login');
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  if (isLoading) return <Loader />;
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     fetchPost();
-  //   }
-  // }, [isLoggedIn]);
+  if (error) return <h1>{error.message}</h1>;
 
-  // console.log('posts-data', posts);
-  // // console.log('isLoggedIn', isLoggedIn);
+  // console.log('🚀 HomePage', data);
 
   return (
-    <div className='grid place-items-center h-screen w-screen'>
-      <div className='w-2/3'>
-        <AddPost />
-      </div>
-      <div>
-        <span className='text-xl'>Posts</span>
-      </div>
-      <div className='ui items'>
-        {posts.length > 1 &&
-          posts.map((post, i) => {
+    <div className='grid place-items-center h-screen'>
+      <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-12 my-12 grid place-items-center'>
+        {data?.user?.length > 0 ? (
+          data.user.map((post) => {
+            let { _doc, time } = post;
             return (
-              <div className='item' key={post}>
-                <a className='ui tiny image'>
-                  <img src={'https://picsum.photos/200/300?random=' + i} />
-                </a>
-                <div className='content'>
-                  <a className='header'>{post.title}</a>
-                  <div className='description'>
-                    <p>{post.content}</p>
-                  </div>
-                  <div className='meta'>
-                    <span className='cinema'>
-                      At {post.createdAt} by
-                      <a className='font-bold'> {post.author}</a>
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <UserPost
+                userID={_doc.user._id}
+                key={_doc._id}
+                id={_doc._id}
+                name={_doc.user.name}
+                username={_doc.user.username}
+                text={_doc.text}
+                time={time}
+                likes={post.likeCount}
+                mujib={post.likeStatus}
+                like={() => {
+                  if (post.likeStatus) {
+                    return unlike(_doc._id);
+                  } else {
+                    return like(_doc._id);
+                  }
+                }}
+              >
+                {id === _doc.user._id && (
+                  <DropDown
+                    delete={() => deletePost(post._doc._id)}
+                    postId={_doc._id}
+                  />
+                )}
+              </UserPost>
             );
-          })}
+          })
+        ) : (
+          <h1 className='text-center text-4xl'>No Post Found</h1>
+        )}
       </div>
     </div>
   );

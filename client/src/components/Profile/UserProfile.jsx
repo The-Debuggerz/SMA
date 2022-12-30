@@ -1,45 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { UserPlusIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
-
+import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { RotatingLines } from 'react-loader-spinner';
 import {
   useGetProfileQuery,
   useFollowUserMutation,
   useUnfollowUserMutation,
-} from '../../Store/rtk';
+  useDeletePostMutation,
+  useLikeMutation,
+  useUnlikeMutation,
+  useCreatePostMutation,
+} from '../../Store/ProfileApi';
+
 import Loader from '../Loader/Loader';
 import UserPost from '../UserPost/UserPost';
+import AddPost from '../AddPost/AddPost';
+import DropDown from '../UserPost/DropDown';
 
 const UserProfile = () => {
+  const [inputText, setInputText] = useState('');
   let { userbyname } = useParams();
-  const { username: currentUser } = useSelector((state) => state.auth);
 
-  const { data, error, isLoading, refetch } = useGetProfileQuery(userbyname);
-  const [followUser] = useFollowUserMutation(userbyname);
-  const [unfollowUser] = useUnfollowUserMutation(userbyname);
+  const { username: currentUser, id } = useSelector((state) => state.auth);
+  const {
+    data,
+    error,
+    isLoading: isLoadingQuery,
+    isFetching,
+  } = useGetProfileQuery(userbyname);
 
-  const updateFollowHandler = async () => {
-    await followUser(userbyname);
-  };
+  const [createPost] = useCreatePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
-  const updateUnFollowHandler = async () => {
-    await unfollowUser(userbyname);
-  };
+  const [like] = useLikeMutation();
+  const [unlike] = useUnlikeMutation();
 
-  // To follow : unfollow user (toggle) button
-  let toggleBtn = async () => {
-    // console.log('🚀 data.followStatus', data.followStatus);
-    if (data.followStatus) {
-      await updateUnFollowHandler();
-    } else {
-      await updateFollowHandler();
-    }
-  };
+  const [followUser, { isLoading: followIsLoading }] = useFollowUserMutation();
+  const [unfollowUser, { isLoading: unFollowIsLoading }] =
+    useUnfollowUserMutation();
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoadingQuery) return <Loader />;
 
   if (error) {
     return (
@@ -48,11 +49,24 @@ const UserProfile = () => {
       </div>
     );
   }
-  // console.log('data', data);
+
+  // Follow : Unfollow User (toggle) button
+  let toggleBtn = async () => {
+    if (data.followStatus) {
+      await unfollowUser(userbyname);
+    } else {
+      await followUser(userbyname);
+    }
+  };
+
+  let makePost = async (e) => {
+    e.preventDefault();
+    return await createPost(inputText);
+  };
 
   return (
     <>
-      {!isLoading && !error && (
+      {!isLoadingQuery && !error && (
         <div className='grid place-items-center'>
           <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12 my-12'>
             <div className='ml-4 flex items-center justify-evenly'>
@@ -80,14 +94,26 @@ const UserProfile = () => {
                     <div className='flex ml-4 items-center justify-between mr-4'>
                       <div className='p-1 flex items-center justify-center mr-4'>
                         <button
-                          className='ml-2 flex rounded-lg bg-yellow-400 p-2'
+                          className='ml-2 flex justify-center rounded-lg bg-yellow-400 p-2 w-28'
                           onClick={toggleBtn}
                         >
                           <UserPlusIcon
                             className='h-6 w-6 mr-1'
                             aria-hidden='true'
                           />
-                          {data.followStatus ? 'Unfollow' : 'Follow'}
+                          {followIsLoading || unFollowIsLoading ? (
+                            <RotatingLines
+                              strokeColor='grey'
+                              strokeWidth='5'
+                              animationDuration='1'
+                              width='20'
+                              visible={true}
+                            />
+                          ) : data.followStatus ? (
+                            'Unfollow'
+                          ) : (
+                            'Follow'
+                          )}
                         </button>
                       </div>
                     </div>
@@ -123,7 +149,17 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-12 my-12'>
+
+          <div className='w-2/3'>
+            <AddPost
+              method={'POST'}
+              makePost={makePost}
+              value={inputText}
+              inputValue={(e) => setInputText(e.target.value)}
+            />
+          </div>
+
+          <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-12 my-12 grid place-items-center'>
             {data?.postData?.length > 0 ? (
               data.postData.map((post) => {
                 return (
@@ -134,7 +170,23 @@ const UserProfile = () => {
                     username={data.user.username}
                     text={post._doc.text}
                     time={post.time}
-                  />
+                    mujib={post.likeStatus}
+                    likes={post.likeCount}
+                    like={() => {
+                      if (!isFetching && post.likeStatus) {
+                        return unlike(post._doc._id);
+                      } else {
+                        return like(post._doc._id);
+                      }
+                    }}
+                  >
+                    {id === data.user._id && (
+                      <DropDown
+                        delete={() => deletePost(post._doc._id)}
+                        postId={post._doc._id}
+                      />
+                    )}
+                  </UserPost>
                 );
               })
             ) : (

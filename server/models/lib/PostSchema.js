@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
 
 const PostSchema = new Schema(
   {

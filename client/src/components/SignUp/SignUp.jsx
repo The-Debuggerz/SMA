@@ -15,6 +15,7 @@ const defaultFormFields = {
 
 const SignUp = () => {
   let navigate = useNavigate();
+  const [message, setMessage] = useState('');
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, username, email, password, confirmPassword } = formFields;
@@ -36,13 +37,10 @@ const SignUp = () => {
         body: JSON.stringify(formFields),
       });
 
-      console.log(res);
       const data = await res.json();
-      console.log(data);
-      console.log(formFields);
 
       if (res.status === 422) {
-        window.alert(data.message);
+        setMessage(data.message);
       } else {
         window.alert('Successfull Registration');
         navigate('/');
@@ -70,12 +68,8 @@ const SignUp = () => {
           <GoogleLogin text={'Sign up with Google'} />
 
           <div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10'>
-            <form
-              className='mt-8 space-y-6'
-              method='POST'
-              onSubmit={postData}
-              noValidate
-            >
+            <h1 className='text-xl text-center text-red-600'>{message}</h1>
+            <form className='mt-8 space-y-6' method='POST' onSubmit={postData}>
               <input type='hidden' name='remember' defaultValue='true' />
               <div className='-space-y-px rounded-md shadow-sm'>
                 <div className='py-2'>

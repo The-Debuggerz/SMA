@@ -2,6 +2,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/index');
 
+// ************************************************************************************************
+// 🚀 Sign up 🚀
+// ************************************************************************************************
+
 exports.signup = async (req, res) => {
   const { name, username, email, password, confirmPassword } = req.body;
 
@@ -50,6 +54,10 @@ exports.signup = async (req, res) => {
   });
 };
 
+// ************************************************************************************************
+// 🚀 Login 🚀
+// ************************************************************************************************
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -62,8 +70,6 @@ exports.login = async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: 'No account found with this Email' });
   }
-
-  // console.log(user);
 
   try {
     const isMatched = await bcrypt.compare(password, user.password);
@@ -78,7 +84,6 @@ exports.login = async (req, res) => {
   const accessToken = jwt.sign({ _id: user._id }, process.env.PRIVATE_KEY, {
     expiresIn: '1h',
   });
-  // console.log(accessToken);
 
   res.cookie('jwtoken', accessToken, {
     maxAge: 3600000, // 1 hr
@@ -98,46 +103,11 @@ exports.login = async (req, res) => {
   });
 };
 
-// exports.refresh = (req, res) => {
-//   const cookies = req.cookies;
-
-//   if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorize' });
-
-//   const refreshToken = cookies.jwt;
-
-//   jwt.verify(
-//     refreshToken,
-//     process.env.REFRESH_token_SECRET,
-
-//     async function (err, decoded) {
-//       if (err) return res.status(403).json({ message: 'Forbidden' });
-
-//       const foundUser = await User.findOne({
-//         username: decoded.username,
-//       }).exec();
-
-//       if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
-
-//       const accessToken = jwt.sign(
-//         {
-//           UserInfo: {
-//             username: foundUser.username,
-//             email: foundUser.email,
-//           },
-//         },
-//         process.env.PRIVATE_KEY,
-//         { expiresIn: '15m' }
-//       );
-
-//       res.json({ accessToken });
-//     }
-//   );
-// };
+// ************************************************************************************************
+// 🚀 Logout 🚀
+// ************************************************************************************************
 
 exports.logout = (req, res) => {
-  // const cookies = req.cookies;
-  // console.log('cookies:', cookies);
-
   res.clearCookie('jwtoken', { domain: process.env.DOMAIN, path: '/' });
   res.status(200).json({ message: 'User Logout', isLoggedIn: false, token: null });
 };

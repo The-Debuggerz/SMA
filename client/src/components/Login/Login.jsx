@@ -15,6 +15,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -33,14 +34,12 @@ const Login = () => {
     const data = await res.json();
     // console.log('login-data:', data);
 
-    if (res.status === 400 || !data) {
-      window.alert(data.message);
+    if (res.status === 401 || !data) {
+      setMessage(data.message);
     } else {
-      window.alert(data.message);
+      dispatch(authActions.login(data));
+      navigate('/');
     }
-    // console.log('data-login', data);
-    dispatch(authActions.login(data));
-    navigate('/');
   };
 
   // console.log('auth:', auth);
@@ -59,6 +58,8 @@ const Login = () => {
           <GoogleLogin text={'Sign in with Google'} />
 
           <div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-8'>
+            <h1 className='text-xl text-center text-red-600'>{message}</h1>
+
             <form className='mt-8 space-y-6' method='POST' onSubmit={loginUser}>
               <input type='hidden' name='remember' defaultValue='true' />
               <div className='-space-y-px rounded-md shadow-sm'>
@@ -116,12 +117,12 @@ const Login = () => {
                 </div>
 
                 <div className='text-sm'>
-                  <a
+                  <Link
                     href='/forgotPassword'
                     className='font-medium text-indigo-600 hover:text-indigo-500'
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                   &nbsp;
                 </div>
               </div>

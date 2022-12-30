@@ -1,37 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import OptionEmojie from './Emoji';
+import React, { useRef, useState } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
-function AddPost() {
+function AddPost(props) {
   const emojiRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
-  const [inputText, setInputText] = useState('');
 
   const handleClick = () => {
     // 👇️ toggle shown state
     setShowPicker((current) => !current);
-  };
-
-  let createPost = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/userPosts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: inputText,
-        }),
-      });
-      let data = await res.json();
-      console.log('🚀 followSlice:Data', data);
-
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -45,7 +22,11 @@ function AddPost() {
       </div>
 
       <div className='min-w-0 flex-1 px-15 py-15'>
-        <form className='relative' method='POST' onSubmit={createPost}>
+        <form
+          className='relative'
+          method={props.method}
+          onSubmit={props.makePost}
+        >
           <div className='border h-40 border-gray-300 rounded-lg shadow-sm overflow-hidden px-4 py-2'>
             <textarea
               rows='4'
@@ -54,8 +35,8 @@ function AddPost() {
               className='block w-full py-3 text-lg outline-none resize-none focus:ring-0'
               placeholder='What are you up to?'
               ref={emojiRef}
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
+              value={props.value}
+              onChange={props.inputValue}
             ></textarea>
 
             <div className='py-2' aria-hidden='true'>

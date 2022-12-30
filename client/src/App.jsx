@@ -20,29 +20,27 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Settings from './components/Settings/Settings';
 import SignUp from './components/SignUp/SignUp';
 import UserProfile from './components/Profile/UserProfile';
+import EditPost from './components/EditPost/EditPost';
 
 import './App.css';
 
 function App() {
-  const { isLoggedIn, loading, username } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { isLoggedIn, loading } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(userLoggedIn());
   }, []);
 
-  if (loading) {
-    <Loader />;
-  }
+  if (loading) return <Loader />;
 
-  // console.log('🚀 ~ file: App.jsx:40 ~ App ~ username', username);
   // console.log(isLoggedIn);
 
   return (
     <div className='conatainer min-h-screen mx-auto'>
-      <Navbar username={username} />
+      <Navbar />
       <Routes>
         <Route
           path='login'
@@ -66,6 +64,7 @@ function App() {
           <Route path='logout' element={<Logout />} />
           <Route path='settings' element={<Settings />} />
           <Route path='notification' element={<Notification />} />
+          <Route path='edit-post/:postID' element={<EditPost />} />
         </Route>
 
         <Route path='/f' element={<Error500 />} />
