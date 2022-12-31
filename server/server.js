@@ -1,8 +1,9 @@
 const http = require('http');
+require('dotenv').config();
 
 const app = require('./app');
 const { log } = require('./utils');
-const { connectDB } = require('../server/utils/');
+const { connectDB } = require('../server/utils/index');
 
 const PORT = process.env.PORT || 5000;
 

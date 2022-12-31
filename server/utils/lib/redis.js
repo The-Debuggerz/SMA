@@ -1,6 +1,6 @@
-const Redis = require('ioredis');
+// const Redis = require('ioredis');
 
 // Connect to Redis
-const redis = new Redis(process.env.REDIS);
+// const redis = new Redis(process.env.REDIS);
 
-module.exports = redis;
+// module.exports = redis;
