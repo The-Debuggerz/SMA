@@ -43,7 +43,6 @@ function App() {
     <div className='conatainer min-h-screen mx-auto'>
       <Navbar />
       <Routes>
-        <Route path='post/:postID' element={<SinglePost />} />
         <Route
           path='login'
           element={isLoggedIn ? <Navigate to='/' /> : <Login />}
@@ -64,9 +63,10 @@ function App() {
           <Route path='profile/:userbyname' element={<UserProfile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='logout' element={<Logout />} />
-          <Route path='settings' element={<Settings />} />
+          <Route path='profile/settings' element={<Settings />} />
           <Route path='notification' element={<Notification />} />
           <Route path='edit-post/:postID' element={<EditPost />} />
+          <Route path='post/:postID' element={<SinglePost />} />
         </Route>
 
         <Route path='/f' element={<Error500 />} />

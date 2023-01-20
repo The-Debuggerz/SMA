@@ -29,6 +29,7 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
+      'default-src': ["'self'"],
       'img-src': ["'self'", 'https: data: blob:'],
       'font-src': ["'self'", 'https: data:'],
     },

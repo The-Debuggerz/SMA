@@ -31,7 +31,7 @@ const SearchUser = () => {
           <input
             id='search'
             type='search'
-            placeholder='Search User'
+            placeholder='Search User - Ex. Mujib'
             value={query}
             onChange={handleChange}
             className='text-center text-lg px-4 border w-full outline-none border-gray-400 py-2 leading-5 rounded-md transition duration-150 ease-in-out'

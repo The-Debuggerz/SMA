@@ -57,10 +57,10 @@ const SignUp = () => {
   return (
     <>
       <section className='text-gray-600 body-font'>
-        <div className='px-5 py-24 mx-auto flex flex-wrap justify-center flex-col items-center'>
+        <div className='px-5 py-8 mx-auto flex flex-wrap justify-center flex-col items-center'>
           <div className='flex flex-col justify-center items-center lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0'>
             <img className='mx-auto h-12 w-auto' src={logo} alt='SMA Logo' />
-            <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
+            <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-white'>
               Create an account
             </h2>
           </div>

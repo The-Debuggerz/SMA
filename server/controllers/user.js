@@ -74,13 +74,6 @@ exports.userProfile = async (req, res) => {
       },
     ]);
 
-    // let [{ comments }] = posts;
-    // console.log('🚀 comments', comments);
-
-    // let commentTime = await comments.map(comment => {
-    //   return { time: timeAgo.format(comment.createdAt) };
-    // });
-
     const postData = await processPostData(posts, req.user._id);
 
     // Return User Profile Search via params

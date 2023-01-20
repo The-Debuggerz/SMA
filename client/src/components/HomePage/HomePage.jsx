@@ -285,7 +285,20 @@ const HomePage = () => {
               );
             })
           ) : (
-            <h1 className='text-center text-4xl'>No Post Found</h1>
+            <>
+              <h1 className='text-center text-4xl font-semibold'>
+                No Post Found
+              </h1>
+              <div className='text-center text-2xl text-gray-100 mt-12 font-semibold'>
+                Follow{' '}
+                <Link to={`/profile/mujib`}>
+                  <span className='text-3xl text-gray-900 font-bold hover:text-black'>
+                    MUJIB
+                  </span>
+                </Link>{' '}
+                To See Post
+              </div>
+            </>
           )}
         </div>
       </div>
