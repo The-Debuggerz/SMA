@@ -1,25 +1,5 @@
 # SMA - Social Media App
 
-# TODO
-
-## Front-End
-
-- [x] Add HomePage - React
-- [x] Add Login Page - React
-- [x] Add Register Page - React
-- [x] Add Reset Password Page - React
-- [x] Add About Page - React
-
-## Back-End
-
-- [x] Add Routes - Node
-- [x] Setup MongoDB - Node
-- [x] Implement Models MongoDB - Node
-- [x] Connect MongoDB - Node
-- [x] Initialize MongoDB To Login & Register - Node
-- [x] Authentication - Node
-- [ ] Authorization - Node
-
 ## `Note` Using <a href="https://vitejs.dev/">Vite</a> tool for React to get fast workflow
 
 ## Basic Structure of directory
@@ -79,14 +59,6 @@
 
 > ```
 > https://localhost:5000
-> ```
-
-> ```
-> Use res.reply() function(located in app.js) with messages utility when sending response to front end
-> return res.reply(messages.custom.user_create_success, { data:'xyz'},{ authorization: newUser.sVerificationToken });
-> Here first argument is status and message second is response data and third is header
-> Alternatively, you can pass return res.reply(messages.success('OTP sent'), { data:'xyz'},{ authorization: newUser.sVerificationToken });
-> Refer messages.js from utils
 > ```
 
 `if you faced any kind of issue while setup project, create a new issue or asked in our discord server.`
