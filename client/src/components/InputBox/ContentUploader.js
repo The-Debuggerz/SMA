@@ -63,8 +63,6 @@ export let usePostUpload = (uploadMutation) => {
 
     if (!inputText && !postImage) return;
 
-    console.log('🚀 makePost ~ image', postImage);
-
     const imageData = new FormData();
     imageData.append('text', inputText);
     imageData.append('image', postImage);
@@ -73,6 +71,7 @@ export let usePostUpload = (uploadMutation) => {
 
     setInputText('');
     setPostImage(null);
+    setPostImagePreview(null);
     setInputBox((current) => !current);
   };
 

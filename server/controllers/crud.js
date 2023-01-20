@@ -38,7 +38,7 @@ exports.createPost = async (req, res) => {
     }
 
     let post = new Post({
-      text: text,
+      text: text ? text : null,
       image: imageUrl,
       imagePublicId: imagePublicId,
       user: req.user._id,

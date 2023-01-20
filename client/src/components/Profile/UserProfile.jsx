@@ -403,7 +403,7 @@ const UserProfile = () => {
                   </span>
                 </div>
               </div>
-              <div className='flex justify-center -mt-72'>
+              <div className='flex justify-center -mt-72 z-50'>
                 {inputBox && (
                   <InputBox
                     close={createPostBox}
@@ -467,7 +467,7 @@ const UserProfile = () => {
                       />
                     ) : null}
 
-                    <div className='gif-box ml-2 z-50' key={post._id}>
+                    <div className='gif-box ml-2' key={post._id}>
                       <Gif
                         key={post._id}
                         id={post._id}
