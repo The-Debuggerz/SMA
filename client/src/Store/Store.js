@@ -4,12 +4,10 @@ import { ProfileApi } from './ProfileApi';
 import { UsersPostApi } from './UsersPostApi';
 import { SinglePostApi } from './SinglePostApi';
 import { GIFApi } from './GIFApi';
-import Comm from './Comm';
 
 const store = configureStore({
   reducer: {
     auth: AuthSlice.reducer,
-    comm: Comm.reducer,
     [UsersPostApi.reducerPath]: UsersPostApi.reducer,
     [ProfileApi.reducerPath]: ProfileApi.reducer,
     [SinglePostApi.reducerPath]: SinglePostApi.reducer,
