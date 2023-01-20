@@ -1,15 +1,52 @@
-const { Post } = require('../models/index');
+const { Post, Comment } = require('../models/index');
+const cloudinary = require('cloudinary').v2;
+let streamifier = require('streamifier');
+
+const multer = require('multer');
+const upload = multer();
 
 // ************************************************************************************************
 // 🚀 C - Create Post 🚀
 // ************************************************************************************************
 
 exports.createPost = async (req, res) => {
-  let text = req.body.text;
+  //
+  upload.single('image')(req, res, async () => {
+    let text = req.body.text;
+    if (!text && !req.file) return;
 
-  let post = await new Post({ text, user: req.user._id }).save();
+    let imageUrl = null;
+    let imagePublicId = null;
 
-  return res.status(201).json(post.text);
+    if (req.file) {
+      //
+      let uploadPromise = new Promise((resolve, reject) => {
+        let cld_upload_stream = cloudinary.uploader.upload_stream({ resource_type: 'image', folder: `sma/${req.user.username}` }, (err, image) => {
+          if (err) {
+            return res.status(500).send('Error saving file to Cloudinary');
+          }
+
+          imageUrl = image.secure_url;
+          imagePublicId = image.public_id;
+          resolve();
+        });
+
+        streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
+      });
+
+      await uploadPromise;
+    }
+
+    let post = new Post({
+      text: text,
+      image: imageUrl,
+      imagePublicId: imagePublicId,
+      user: req.user._id,
+    });
+
+    await post.save();
+    return res.status(201).json(post);
+  });
 };
 
 // ************************************************************************************************
@@ -50,7 +87,25 @@ exports.updatePost = async (req, res) => {
 // ************************************************************************************************
 
 exports.deletePost = async (req, res) => {
-  let deletePost = await Post.deleteOne({ _id: req.body.postID, user: req.user._id });
+  let deletePost = await Post.findByIdAndDelete({ _id: req.body.postID, user: req.user._id });
 
-  return res.status(202).json(deletePost);
+  if (!deletePost) {
+    return res.status(404).send('Post not found');
+  }
+
+  // Delete all comments associated with the post
+  await Comment.deleteMany({ post: req.body.postID });
+
+  if (deletePost.imagePublicId) {
+    await cloudinary.uploader.destroy(deletePost.imagePublicId, (err, result) => {
+      if (err) {
+        console.log('🚀 destroy err', err);
+        return res.status(500).json('Error deleting image from Cloudinary');
+      }
+      // Image deleted successfully
+    });
+    return res.status(200).json('Post deleted successfully');
+  }
+
+  return res.status(200).json('Post deleted successfully');
 };

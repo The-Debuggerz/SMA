@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   useEditPostQuery,
   usePostEditPostMutation,
@@ -11,6 +12,8 @@ const EditPost = () => {
   const [inputText, setInputText] = useState('');
   const { postID } = useParams();
   const navigate = useNavigate();
+
+  let { picture } = useSelector((state) => state.auth);
 
   const { data, isLoading, error } = useEditPostQuery(postID);
   const [updatePost] = usePostEditPostMutation();
@@ -37,6 +40,7 @@ const EditPost = () => {
           value={inputText}
           inputValue={(e) => setInputText(e.target.value)}
           makePost={updatEditPost}
+          profilePic={picture}
         />
       </div>
     </div>

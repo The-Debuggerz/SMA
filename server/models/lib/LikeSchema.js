@@ -1,14 +1,15 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
 
 const LikeSchema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: 'User',
       required: true,
     },
     post: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: 'Post',
       required: true,
     },

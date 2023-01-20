@@ -1,16 +1,22 @@
-const http = require('http');
 require('dotenv').config();
+const http = require('http');
+const cloudinary = require('cloudinary');
 
 const app = require('./app');
-const { log } = require('./utils');
-const { connectDB } = require('../server/utils/index');
+const { log, connectDB } = require('./utils');
 
 const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 
 (async () => {
-  await connectDB();
+  try {
+    await connectDB();
+    await cloudinary.v2.api.ping();
+    log.blue('Cloudinary connection successful');
+  } catch (error) {
+    log.red('Cloudinary connection failed:', error);
+  }
   server.listen(PORT, () => {
     log.blue(`Listening on port ${PORT}...`);
   });

@@ -16,7 +16,7 @@ function AddPost(props) {
       <div className='flex-shrink-0'>
         <img
           className='inline-block h-10 w-10 rounded-full'
-          src='https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+          src={props.profilePic}
           alt=''
         />
       </div>
@@ -24,15 +24,15 @@ function AddPost(props) {
       <div className='min-w-0 flex-1 px-15 py-15'>
         <form
           className='relative'
-          method={props.method}
+          method='post'
           onSubmit={props.makePost}
+          encType='multipart/form-data'
         >
-          <div className='border h-40 border-gray-300 rounded-lg shadow-sm overflow-hidden px-4 py-2'>
+          <div className='border text-center flex justify-center items-center cursor-pointer h-40 w-full border-gray-300 rounded-xl shadow-sm overflow-hidden px-4 py-2'>
             <textarea
               rows='4'
-              name='comment'
-              id='comment'
-              className='block w-full py-3 text-lg outline-none resize-none focus:ring-0'
+              name='text'
+              className='block w-full py-1 text-lg rounded-md p-4 outline-none resize-none focus:ring-0'
               placeholder='What are you up to?'
               ref={emojiRef}
               value={props.value}
@@ -50,10 +50,10 @@ function AddPost(props) {
             <div className='flex items-center space-x-5'>
               <div className='flex items-center'>
                 <div>
-                  <div className='relative ml-5'>
+                  <div className='flex justify-center items-center'>
                     <button
                       type='button'
-                      className='w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-500'
+                      className='h-10 mb-2 ml-4 rounded-full  text-gray-400 hover:text-gray-500'
                       aria-haspopup='listbox'
                       aria-expanded='true'
                       aria-labelledby='listbox-label'
@@ -62,7 +62,7 @@ function AddPost(props) {
                       <span className='flex items-center justify-center'>
                         <span>
                           <svg
-                            className='flex-shrink-0 h-5 w-5'
+                            className='flex-shrink-0 h-6 w-6 text-gray-800'
                             xmlns='http://www.w3.org/2000/svg'
                             viewBox='0 0 20 20'
                             fill='currentColor'
@@ -81,14 +81,6 @@ function AddPost(props) {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className='flex-shrink-0'>
-              <button
-                type='submit'
-                className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-              >
-                Post
-              </button>
             </div>
           </div>
         </form>

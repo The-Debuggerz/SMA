@@ -21,6 +21,7 @@ import Settings from './components/Settings/Settings';
 import SignUp from './components/SignUp/SignUp';
 import UserProfile from './components/Profile/UserProfile';
 import EditPost from './components/EditPost/EditPost';
+import SinglePost from './components/SinglePost/SinglePost';
 
 import './App.css';
 
@@ -42,6 +43,7 @@ function App() {
     <div className='conatainer min-h-screen mx-auto'>
       <Navbar />
       <Routes>
+        <Route path='post/:postID' element={<SinglePost />} />
         <Route
           path='login'
           element={isLoggedIn ? <Navigate to='/' /> : <Login />}

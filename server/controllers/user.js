@@ -1,4 +1,10 @@
-const { Post, User, Likes } = require('../models/index');
+const { Post, User, Likes, Comment } = require('../models/index');
+const cloudinary = require('cloudinary').v2;
+let streamifier = require('streamifier');
+const mongoose = require('mongoose');
+
+const multer = require('multer');
+const upload = multer();
 // const redis = require('../utils/lib/redis');
 
 const TimeAgo = require('javascript-time-ago');
@@ -12,7 +18,7 @@ const timeAgo = new TimeAgo('en-US');
 // ************************************************************************************************
 
 exports.isLoggedIn = async (req, res) => {
-  let user = await User.findById(req.user._id).select('username');
+  let user = await User.findById(req.user._id).select(['username', 'picture']);
 
   return res.status(200).send({
     message: 'Login Successfull',
@@ -20,6 +26,7 @@ exports.isLoggedIn = async (req, res) => {
     _id: req.user._id,
     token: req.token,
     username: user.username,
+    picture: user.picture,
   });
 };
 
@@ -35,7 +42,45 @@ exports.userProfile = async (req, res) => {
       return res.status(401).json({ message: 'There is no profile for this user' });
     }
 
-    let posts = await Post.find({ user: user._id }).select(['_id', 'text', 'user', 'createdAt']).sort({ createdAt: -1 });
+    // Find Current users all post with comments
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          user: user._id,
+        },
+      },
+      {
+        $lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'post',
+          as: 'comments',
+          pipeline: [
+            {
+              $sort: {
+                createdAt: -1,
+              },
+            },
+            {
+              $limit: 2,
+            },
+          ],
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    ]);
+
+    // let [{ comments }] = posts;
+    // console.log('🚀 comments', comments);
+
+    // let commentTime = await comments.map(comment => {
+    //   return { time: timeAgo.format(comment.createdAt) };
+    // });
+
     const postData = await processPostData(posts, req.user._id);
 
     // Return User Profile Search via params
@@ -80,7 +125,11 @@ const processPostData = async (userPost, userId) => {
         likeStatus = false;
       }
 
-      return { ...post, likeCount, liked, likeStatus, time: timeAgo.format(post.createdAt) };
+      let commentTime = await post.comments.map(comment => {
+        return { time: timeAgo.format(comment.createdAt) };
+      });
+
+      return { ...post, likeCount, liked, likeStatus, time: timeAgo.format(post.createdAt), commentTime };
     })
   );
 
@@ -94,22 +143,19 @@ const processPostData = async (userPost, userId) => {
 exports.getFollowingUsersPost = async (req, res) => {
   let currentUser = await User.findById(req.user._id);
 
-  // Redis Cache
-  // const redisCache = await redis.get(req.user._id);
-
-  // if (redisCache) {
-  //   console.log('🚀🚀 from cache');
-
-  //   return res.status(200).json({
-  //     user: JSON.parse(redisCache),
-  //     from: 'redis',
-  //   });
-  // }
-
   let followingUsersPost = await Post.find({
     $or: [{ user: { $in: currentUser.following } }, { user: req.user._id }],
   })
-    .populate('user', '_id name username')
+    .populate([
+      {
+        path: 'user',
+        select: 'name username picture',
+      },
+      {
+        path: 'comments',
+        options: { sort: { createdAt: -1 }, limit: 2 },
+      },
+    ])
     .sort({ createdAt: -1 });
 
   const postData = await processPostData(followingUsersPost, req.user._id);
@@ -215,6 +261,45 @@ exports.unlike = async (req, res) => {
 };
 
 // ************************************************************************************************
+// 🚀 Comment - Create + Delete 🚀
+// ************************************************************************************************
+
+exports.postComment = async (req, res) => {
+  if (!req.body.commentText && !req.body.gifLink) return;
+
+  let findUser = await User.findById(req.user._id).select(['name', 'username', 'picture']);
+
+  try {
+    const comment = new Comment({
+      name: findUser.name,
+      username: findUser.username,
+      picture: findUser.picture,
+      text: req.body.commentText ? req.body.commentText : null,
+      gifUrl: req.body.gifLink ? req.body.gifLink : null,
+      post: req.body.postId,
+      user: req.user._id,
+    });
+
+    await comment.save();
+
+    const post = await Post.findById(req.body.postId);
+
+    post.comments.push(comment._id);
+
+    await post.save();
+
+    return res.status(200).json(comment);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  await Comment.findByIdAndDelete(req.params.id);
+  return res.status(200).json('Comment Deleted');
+};
+
+// ************************************************************************************************
 // 🚀 Delete User Profile 🚀
 // ************************************************************************************************
 
@@ -231,5 +316,97 @@ exports.deleteProfile = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send('server error');
+  }
+};
+
+// ************************************************************************************************
+// 🚀 Search User Via Search Bar 🚀
+// ************************************************************************************************
+
+exports.serachUser = async (req, res) => {
+  const { q } = req.query;
+
+  const users = await User.find({ $text: { $search: q } }).select(['name', 'username', 'picture']);
+
+  if (users.length === 0) {
+    return res.json({ found: false });
+  }
+
+  return res.status(200).json({ users, found: true });
+};
+
+exports.updateProfilePic = (req, res) => {
+  //
+  upload.single('image')(req, res, async () => {
+    if (!req.file) return;
+    //
+    let imageUrl = null;
+    let imagePublicId = null;
+
+    let uploadPromise = new Promise((resolve, reject) => {
+      let cld_upload_stream = cloudinary.uploader.upload_stream({ resource_type: 'image', folder: `sma/${req.user.username}` }, (err, image) => {
+        if (err) {
+          return res.status(500).send('Error saving file to Cloudinary');
+        }
+
+        imageUrl = image.secure_url;
+        imagePublicId = image.public_id;
+        resolve();
+      });
+
+      streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
+    });
+
+    await uploadPromise;
+
+    let findUser = await User.findById(req.user._id).select(['_id', 'picture']);
+
+    if (findUser._id.toString() !== req.user._id.toString()) {
+      return res.redirect('/');
+    }
+
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        picture: imageUrl,
+        imagePublicId: imagePublicId,
+      },
+      { new: true }
+    );
+
+    return res.status(201).json('Profile Updated!');
+  });
+};
+
+// ************************************************************************************************
+// 🚀 Show Single Post 🚀
+// ************************************************************************************************
+
+exports.singlePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate([
+      {
+        path: 'user',
+        select: 'name username picture',
+      },
+      {
+        path: 'comments',
+        options: { sort: { createdAt: -1 } },
+      },
+    ]);
+
+    if (!post) {
+      return res.json('No Post Found');
+    }
+
+    const [{ likeCount, likeStatus, time }] = await processPostData([post], req.user._id);
+
+    let commentTime = post.comments.map(comment => {
+      return { time: timeAgo.format(comment.createdAt) };
+    });
+
+    return res.status(200).json({ post, time: timeAgo.format(post.createdAt), commentTime, likeCount, likeStatus, time });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

@@ -35,12 +35,19 @@ export const ProfileApi = createApi({
     }),
 
     createPost: builder.mutation({
-      query: (inputText) => ({
+      query: (data) => ({
         url: `/create-post`,
         method: 'POST',
-        body: {
-          text: inputText,
-        },
+        body: data,
+      }),
+      invalidatesTags: ['Post'],
+    }),
+
+    updateProfilePic: builder.mutation({
+      query: (data) => ({
+        url: `/update-profile-pic`,
+        method: 'PUT',
+        body: data,
       }),
       invalidatesTags: ['Post'],
     }),
@@ -77,6 +84,26 @@ export const ProfileApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
+    postComment: builder.mutation({
+      query: ({ text, ...postId }) => ({
+        url: `/post-comment`,
+        method: 'POST',
+        body: {
+          text,
+          ...postId,
+        },
+      }),
+      invalidatesTags: ['Post'],
+    }),
+
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        url: `/delete-comment/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Post'],
+    }),
   }),
 });
 
@@ -90,4 +117,7 @@ export const {
   useDeletePostMutation,
   useLikeMutation,
   useUnlikeMutation,
+  usePostCommentMutation,
+  useUpdateProfilePicMutation,
+  useDeleteCommentMutation,
 } = ProfileApi;

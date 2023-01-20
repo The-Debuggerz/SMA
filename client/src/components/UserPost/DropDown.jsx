@@ -21,9 +21,11 @@ const DropDown = (props) => {
 
       {showDropDown && (
         <div id='Dropdown' className='dropdownmenu-content p-3'>
-          <Link className='dMenu' to={`/edit-post/${props.postId}`}>
-            Edit Post
-          </Link>
+          {props.showEditButton && (
+            <Link className='dMenu' to={`/edit-post/${props.postId}`}>
+              Edit
+            </Link>
+          )}
           <button className='dMenu' onClick={props.delete}>
             Delete
           </button>

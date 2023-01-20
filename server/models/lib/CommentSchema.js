@@ -1,12 +1,39 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
 
-const Comments = Schema(
+const CommentSchema = Schema(
   {
-    iUserId: { type: Schema.Types.ObjectId, ref: 'users' },
-    iPostId: { type: Schema.Types.ObjectId, ref: 'posts' },
-    sComment: String,
+    text: {
+      type: String,
+    },
+    gifUrl: {
+      type: String,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    picture: {
+      type: String,
+    },
+    user: {
+      type: ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    post: {
+      type: ObjectId,
+      ref: 'Post',
+      required: true,
+    },
   },
-  { timestamps: { createdAt: 'dCreatedDate', updatedAt: 'dUpdatedDate' } }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = model('comments', Comments);
+module.exports = model('Comment', CommentSchema);

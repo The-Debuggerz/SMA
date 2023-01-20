@@ -49,6 +49,7 @@ const authSlice = createSlice({
     id: null,
     username: '',
     loading: true,
+    picture: '',
   },
   reducers: {
     login: (state, action) => {
@@ -56,6 +57,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.username = action.payload.username;
       state.id = action.payload._id;
+      state.picture = action.payload.picture;
     },
 
     logout: (state) => {
@@ -73,6 +75,7 @@ const authSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn;
       state.username = action.payload.username;
       state.id = action.payload._id;
+      state.picture = action.payload.picture;
     },
     [userLoggedIn.rejected]: (state) => {
       state.loading = false;

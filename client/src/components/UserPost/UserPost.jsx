@@ -1,32 +1,30 @@
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const UserPost = (props) => {
-  const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState(0);
-  const [shares, setShares] = useState(0);
+  const [comments, setComments] = useState(false);
 
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
+  const buttonRef = useRef(null);
 
   const handleComment = () => {
-    setComments(comments + 1);
+    setComments((current) => !current);
   };
 
-  const handleShare = () => {
-    setShares(shares + 1);
+  const handleShareClick = (link) => {
+    navigator.clipboard.writeText(`${link}`).then(() => {
+      buttonRef.current.innerHTML = 'Copied!';
+    });
   };
 
   return (
     <div
-      className='bg-white rounded-lg shadow-md p-4 w-1/3 mb-8'
+      className='bg-white rounded-lg shadow-md p-4 w-1/3 mb-8 relative'
       key={props.id}
     >
       <div className='flex items-center mb-4 justify-between'>
         <div className='flex flex-row justify-center items-center'>
           <img
-            src='https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            src={props.profile}
             alt='avatar'
             className='w-10 h-10 rounded-full mr-4'
           />
@@ -41,15 +39,21 @@ const UserPost = (props) => {
             <p className='text-gray-600 text-sm'>{props.time}</p>
           </div>
         </div>
-        <div>{props.children}</div>
+        {props.children[0]}
       </div>
-      <p className='text-gray-700 text-base mb-4 break-words'>{props.text}</p>
-      <img
-        src='https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-        alt='post image'
-        className='w-full rounded-lg shadow-md mb-4'
-      />
-      <div className='flex items-center'>
+      <hr />
+      <p className='text-gray-700 p-1 text-lg mb-4 break-words'>{props.text}</p>
+      {props.userPostImage ? (
+        <>
+          <hr />
+          <img
+            src={props.userPostImage}
+            alt='post image'
+            className='w-full rounded-lg shadow-md mb-4'
+          />
+        </>
+      ) : null}
+      <div className='flex items-center justify-between mx-4'>
         {props.likedStatus ? (
           <button
             onClick={props.like}
@@ -107,9 +111,14 @@ const UserPost = (props) => {
 
           {comments}
         </button>
+
         <button
-          onClick={handleShare}
-          className='text-gray-700 hover:text-green-500 focus:outline-none'
+          onClick={() =>
+            handleShareClick(
+              `${import.meta.env.VITE_DOMAIN}/post/${props.postLink}`
+            )
+          }
+          className='text-gray-700 flex flex-col justify-center items-center hover:text-green-500 focus:outline-none'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -119,10 +128,35 @@ const UserPost = (props) => {
           >
             <path d='M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z' />
           </svg>
-
-          {shares}
+          <p ref={buttonRef}></p>
         </button>
       </div>
+
+      {comments && (
+        <>
+          <div className='comment mt-4 w-auto'>
+            <div className='flex rounded-md shadow-sm'>
+              <input
+                type='text'
+                className='form-input pl-2 flex-1 block w-full border border-gray-300 rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                placeholder='Write your comment here...'
+                value={props.commentValue}
+                onChange={props.inputValue}
+              />
+              {props.children[1]}
+              <button
+                type='submit'
+                className='ml-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800'
+                onClick={props.comment}
+              >
+                Send
+              </button>
+            </div>
+          </div>
+          {props.children[2]}
+          {props.children[3]}
+        </>
+      )}
     </div>
   );
 };

@@ -81,12 +81,12 @@ exports.login = async (req, res) => {
     console.log(error);
   }
 
-  const accessToken = jwt.sign({ _id: user._id }, process.env.PRIVATE_KEY, {
+  const accessToken = jwt.sign({ _id: user._id, username: user.username }, process.env.PRIVATE_KEY, {
     expiresIn: '1h',
   });
 
   res.cookie('jwtoken', accessToken, {
-    maxAge: 3600000, // 1 hr
+    maxAge: 86400000, // 24 hr
     httpOnly: true,
     path: '/',
     sameSite: 'lax',

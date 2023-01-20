@@ -1,11 +1,13 @@
 const { Schema, model } = require('mongoose');
 const { ObjectId } = Schema;
 
-const User = Schema(
+const UserSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
+      text: true,
+      index: true,
     },
     username: {
       type: String,
@@ -17,13 +19,14 @@ const User = Schema(
     },
     picture: {
       type: String,
+      default: null,
+    },
+    imagePublicId: {
+      type: String,
     },
     password: {
       type: String,
       required: true,
-    },
-    picture: {
-      type: String,
     },
     isVerified: {
       type: Boolean,
@@ -34,15 +37,12 @@ const User = Schema(
 
     resetToken: String,
     resetTokenExpiration: Date,
-
-    bIsOnline: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = model('User', User);
+UserSchema.index({ name: 'text', username: 1 });
+
+module.exports = model('User', UserSchema);
