@@ -29,7 +29,7 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      'default-src': ["'self'"],
+      'default-src': ["'self'", 'https://tenor.googleapis.com'],
       'img-src': ["'self'", 'https: data: blob:'],
       'font-src': ["'self'", 'https: data:'],
     },
