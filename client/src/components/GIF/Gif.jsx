@@ -12,7 +12,7 @@ const Gif = (props) => {
       <div
         className={`${
           !props.showGrid ? 'hidden' : ''
-        } bg-gray-700 w-3/5 p-2 rounded-lg absolute -ml-32 mt-1 overflow-scroll h-72`}
+        } bg-gray-700 w-3/5 p-2 rounded-lg absolute top-1/4 left-0 overflow-scroll h-72`}
       >
         <div className='flex rounded-md shadow-sm'>
           <input
@@ -44,7 +44,7 @@ const Gif = (props) => {
           </div>
         </div>
 
-        <div className='grid grid-cols-3 gap-2'>
+        <div className='grid grid-cols-3 gap-2 z'>
           {props.categories?.length > 0 &&
             props.categories.map((item, i) => {
               return (

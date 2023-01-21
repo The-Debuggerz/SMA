@@ -467,7 +467,7 @@ const UserProfile = () => {
                       />
                     ) : null}
 
-                    <div className='gif-box ml-2' key={post._id}>
+                    <div className='gif-box ml-2 z-10' key={post._id}>
                       <Gif
                         key={post._id}
                         id={post._id}
