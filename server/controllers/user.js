@@ -165,7 +165,6 @@ exports.follow = async (req, res) => {
   try {
     // User we want to follow
     const targetUser = await User.findOne({ username: req.body.username });
-    console.log('🚀 targetUser', targetUser);
 
     if (!targetUser) {
       return res.status(404).json({
@@ -175,7 +174,6 @@ exports.follow = async (req, res) => {
     }
 
     const currentUser = await User.findById(req.user._id);
-    console.log('🚀 currentUser', currentUser);
 
     if (currentUser.following.includes(targetUser._id) && targetUser.followers.includes(req.user._id)) {
       return res.status(200).json({ targetUser, message: 'Already Following', followStatus: true });

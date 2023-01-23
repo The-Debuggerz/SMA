@@ -59,8 +59,6 @@ exports.signup = async (req, res) => {
 // ************************************************************************************************
 
 exports.login = async (req, res) => {
-  console.log('🚀 login being called');
-
   const { email, password } = req.body;
 
   if (!email || !password) {
