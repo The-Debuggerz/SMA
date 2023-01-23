@@ -77,7 +77,6 @@ exports.googleOAuthHandler = async (req, res) => {
       res.cookie('jwtoken', accessToken, {
         maxAge: 43200000, // 12 hr
         httpOnly: true,
-        domain: process.env.DOMAIN,
         path: '/',
         sameSite: 'lax',
         secure: true,
