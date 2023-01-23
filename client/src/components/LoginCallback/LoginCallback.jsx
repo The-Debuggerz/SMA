@@ -8,11 +8,8 @@ function LoginCallback() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log('🚀 Im here LoginCallback');
-
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
-    console.log('🚀 token', token);
     setToken(token);
   }, []);
 

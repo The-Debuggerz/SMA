@@ -23,6 +23,8 @@ exports.googleOAuthHandler = async (req, res) => {
         return res.status(403).send('Google account is not verified');
       }
 
+      console.log('🚀 googleOAuthHandler - !User creating account');
+
       // Set username to google signup user
       let userEmail = await googleUser.email;
       let findAt = userEmail.indexOf('@');
@@ -52,6 +54,7 @@ exports.googleOAuthHandler = async (req, res) => {
       });
 
       if (process.env.NODE_ENV === 'production') {
+        console.log("🚀 googleOAuthHandler - !User - I'm in production");
         // set cookies
         res.cookie('jwtoken', accessToken, {
           maxAge: 43200000, // 12 hr
@@ -61,17 +64,37 @@ exports.googleOAuthHandler = async (req, res) => {
           sameSite: 'lax',
           secure: true,
         });
+
         res.redirect(process.env.ORIGIN);
       } else {
+        console.log("🚀 googleOAuthHandler - !User - I'm in localhost");
         res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
       }
     }
+
+    console.log('🚀 googleOAuthHandler - User - login account');
 
     const accessToken = jwt.sign({ _id: existingUser._id, username: existingUser.username }, process.env.PRIVATE_KEY, {
       expiresIn: '12h',
     });
 
-    res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
+    if (process.env.NODE_ENV === 'production') {
+      console.log("🚀 googleOAuthHandler - User login - I'm in production");
+      // set cookies
+      res.cookie('jwtoken', accessToken, {
+        maxAge: 43200000, // 12 hr
+        httpOnly: true,
+        domain: process.env.DOMAIN,
+        path: '/',
+        sameSite: 'lax',
+        secure: true,
+      });
+
+      res.redirect(process.env.ORIGIN);
+    } else {
+      console.log("🚀googleOAuthHandler - User login - I'm in localhost");
+      res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
+    }
   } catch (error) {
     console.log(error, 'failed to authorize google user');
     return res.redirect('/api/failed');
