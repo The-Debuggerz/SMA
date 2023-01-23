@@ -189,7 +189,7 @@ const HomePage = () => {
     <>
       <SearchUser />
       <div className='grid place-items-center h-screen'>
-        <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-12 my-12 grid place-items-center'>
+        <div className='h-auto w-5/6 rounded-2xl py-12 my-12 grid place-items-center'>
           {data?.user?.length > 0 ? (
             data.user.map((post) => {
               let { _doc, time } = post;
@@ -285,7 +285,7 @@ const HomePage = () => {
               );
             })
           ) : (
-            <>
+            <div className='bg-red-600 px-20 py-12 rounded-3xl'>
               <h1 className='text-center text-4xl font-semibold'>
                 No Post Found
               </h1>
@@ -298,7 +298,7 @@ const HomePage = () => {
                 </Link>{' '}
                 To See Post
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

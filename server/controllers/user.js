@@ -1,11 +1,9 @@
 const { Post, User, Likes, Comment } = require('../models/index');
 const cloudinary = require('cloudinary').v2;
 let streamifier = require('streamifier');
-const mongoose = require('mongoose');
 
 const multer = require('multer');
 const upload = multer();
-// const redis = require('../utils/lib/redis');
 
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en.json');
@@ -76,6 +74,8 @@ exports.userProfile = async (req, res) => {
 
     const postData = await processPostData(posts, req.user._id);
 
+    const postCount = await Post.countDocuments({ user: user._id });
+
     // Return User Profile Search via params
     if (req.user._id !== user._id) {
       const currentUser = await User.findById(req.user._id);
@@ -85,10 +85,10 @@ exports.userProfile = async (req, res) => {
         followStatus = true;
       }
 
-      return res.status(200).json({ user, followStatus, postData });
+      return res.status(200).json({ user, followStatus, postData, postCount });
     }
     // else return logged in user profile
-    return res.status(200).json({ user, postData });
+    return res.status(200).json({ user, postData, postCount });
   } catch (error) {
     console.log(error);
     res.status(500).send('server error');
@@ -165,6 +165,7 @@ exports.follow = async (req, res) => {
   try {
     // User we want to follow
     const targetUser = await User.findOne({ username: req.body.username });
+    console.log('🚀 targetUser', targetUser);
 
     if (!targetUser) {
       return res.status(404).json({
@@ -174,18 +175,23 @@ exports.follow = async (req, res) => {
     }
 
     const currentUser = await User.findById(req.user._id);
+    console.log('🚀 currentUser', currentUser);
 
     if (currentUser.following.includes(targetUser._id) && targetUser.followers.includes(req.user._id)) {
       return res.status(200).json({ targetUser, message: 'Already Following', followStatus: true });
     }
 
-    currentUser.following.push(targetUser._id);
-    targetUser.followers.push(req.user._id);
+    if (!currentUser.password || !targetUser.targetUser) {
+      currentUser.following.push(targetUser._id);
+      targetUser.followers.push(req.user._id);
+    }
 
     const [_, target] = await Promise.all([currentUser.save(), targetUser.save()]);
 
     res.status(201).json({ target, followStatus: true });
   } catch (error) {
+    console.log('🚀 191.error', error);
+
     res.status(500).json({
       error: true,
       message: 'Failed to follow user',

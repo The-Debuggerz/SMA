@@ -26,7 +26,7 @@ const SearchUser = () => {
 
   return (
     <div className='flex items-center justify-center flex-col'>
-      <div className='mt-4 w-1/4'>
+      <div className='mt-4 lg:w-1/4 w-10/12'>
         <div className='relative rounded-md shadow-sm'>
           <input
             id='search'
@@ -58,7 +58,7 @@ const SearchUser = () => {
       ) : (
         query &&
         results?.found === false && (
-          <div className='user-list mt-4 w-1/4 rounded-md p-3'>
+          <div className='user-list mt-4 lg:w-1/4 rounded-md'>
             <p className='text-center text-white'>No users found</p>
           </div>
         )

@@ -59,6 +59,8 @@ exports.signup = async (req, res) => {
 // ************************************************************************************************
 
 exports.login = async (req, res) => {
+  console.log('🚀 login being called');
+
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -82,11 +84,11 @@ exports.login = async (req, res) => {
   }
 
   const accessToken = jwt.sign({ _id: user._id, username: user.username }, process.env.PRIVATE_KEY, {
-    expiresIn: '1h',
+    expiresIn: '12h',
   });
 
   res.cookie('jwtoken', accessToken, {
-    maxAge: 86400000, // 24 hr
+    maxAge: 43200000, // 12 hr
     httpOnly: true,
     path: '/',
     sameSite: 'lax',

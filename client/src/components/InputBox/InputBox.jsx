@@ -2,8 +2,8 @@ import AddPost from '../AddPost/AddPost';
 
 const InputBox = (props) => {
   return (
-    <div className='absolute pb-2 z-50 flex flex-col items-center justify-center w-1/2 rounded-lg bg-black'>
-      <div className='h-60 w-6/12 m-10 border border-dashed border-gray-900 flex justify-center items-center overflow-hidden rounded-lg'>
+    <div className='absolute pb-2 z-50 flex flex-col items-center justify-center  rounded-lg bg-black w-full lg:w-1/2'>
+      <div className='lg:h-60 w-6/12 m-4 border border-dashed border-gray-900 flex justify-center items-center overflow-hidden rounded-lg'>
         {props.previewUrl && (
           <img
             className='h-full w-full rounded-md'

@@ -8,6 +8,8 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const crudRoutes = require('./routes/crudRoutes');
 
+const { User } = require('./models/index');
+
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
   max: 10, // Limit each IP to 10 requests per `window` (here, per 1 minutes)
@@ -41,10 +43,10 @@ app.use('/api', profileRoutes);
 app.use('/api', crudRoutes);
 
 // TODO: request count
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalUrl}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`${req.method} ${req.originalUrl}`);
+//   next();
+// });
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets

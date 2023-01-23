@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { getGoogleUser } = require('./googleOAuth');
 const { User } = require('../models/index');
 
-const { getGoogleOAuthToken, findAndUpdateUser } = require('./googleOAuth');
+const { getGoogleOAuthToken } = require('./googleOAuth');
 
 exports.googleOAuthHandler = async (req, res) => {
   try {
@@ -11,7 +11,6 @@ exports.googleOAuthHandler = async (req, res) => {
 
     //get the id and access token with the code
     const { id_token, access_token } = await getGoogleOAuthToken({ code });
-    // console.log('🚀 ~ sessions.js ~ line 14~ id_token, access_token', { id_token, access_token });
 
     const googleUser = await getGoogleUser({ id_token, access_token });
     console.log('googleUser', googleUser);
@@ -26,60 +25,46 @@ exports.googleOAuthHandler = async (req, res) => {
     let setUsername = userEmail.slice(0, findAt);
 
     let usernameExists = User.findOne({ username: setUsername });
-    // console.log('🚀 ~ sessions.js ~ line 29 ~ usernameExists', usernameExists);
 
     if (usernameExists) {
       setUsername += Math.floor(Math.random() * 100);
     }
 
-    // upsert user
-    const user = await findAndUpdateUser(
-      {
-        email: googleUser.email,
-      },
-      {
+    const existingUser = await User.findOne({ email: googleUser.email });
+
+    if (!existingUser) {
+      const picture = googleUser.picture.replace('=s96-c', '=s512-c');
+
+      //create new user
+      const user = new User({
         name: googleUser.name,
         username: setUsername,
         email: googleUser.email,
-        picture: googleUser.picture,
-      },
-      {
-        upsert: true,
-        new: true,
-      }
-    );
-    // console.log('🚀 ~ sessions.js ~ line 51 ~ user', user);
+        picture: picture,
+        password: 'google-oauth',
+      });
 
-    const accessToken = jwt.sign({ _id: user._id }, process.env.PRIVATE_KEY, {
-      expiresIn: '1h',
+      await user.save();
+    }
+
+    const accessToken = jwt.sign({ _id: existingUser._id, username: existingUser.username }, process.env.PRIVATE_KEY, {
+      expiresIn: '12h',
     });
 
-    // console.log('🚀 ~ sessions.js ~ line 57 accessToken', accessToken);
-    // console.log('🚀 ~ sessions.js ~ line 58 user._id', user._id);
-
-    jwt.verify(accessToken, process.env.PRIVATE_KEY, function (err, decoded) {
-      if (err) {
-        console.log('JWT Token Expired');
-        console.log('auth-decoded', decoded);
-        return res.status(401).json({ name: 'TokenExpiredError', message: 'jwt expired' });
-      }
-      // console.log('🚀 ~ sessions.js ~ line 66 ~ decoded', decoded);
-
+    if (process.env.NODE_ENV === 'production') {
       // set cookies
       res.cookie('jwtoken', accessToken, {
-        maxAge: 3600000, // 1 hr
+        maxAge: 43200000, // 12 hr
         httpOnly: true,
         domain: process.env.DOMAIN,
         path: '/',
         sameSite: 'lax',
-        secure: false,
+        secure: true,
       });
-
-      req.token = accessToken;
-      req.user = decoded;
-
       res.redirect(process.env.ORIGIN);
-    });
+    } else {
+      res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
+    }
   } catch (error) {
     console.log(error, 'failed to authorize google user');
     return res.redirect('/api/failed');

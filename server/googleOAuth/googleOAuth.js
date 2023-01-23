@@ -1,6 +1,5 @@
 const axios = require('axios');
 const qs = require('qs');
-const { User } = require('../models/index');
 
 exports.getGoogleOAuthToken = async ({ code }) => {
   const url = 'https://oauth2.googleapis.com/token';
@@ -42,8 +41,4 @@ exports.getGoogleUser = async ({ id_token, access_token }) => {
     console.log(error, 'Error fetching google user');
     throw new Error(error.message);
   }
-};
-
-exports.findAndUpdateUser = (query, update, options) => {
-  return User.findOneAndUpdate(query, update, options);
 };

@@ -47,7 +47,6 @@ const UserProfile = () => {
   const [isShowingOriginal, setIsShowingOriginal] = useState(true);
   const [originalCategories, setOriginalCategories] = useState([]);
   const [isSearchResult, setIsSearchResult] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   let { userbyname } = useParams();
 
@@ -262,19 +261,21 @@ const UserProfile = () => {
     <>
       {!isLoadingQuery && !error && (
         <div className='grid place-items-center relative overflow-hidden pb-20'>
-          <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12 my-12'>
-            <div className='ml-4 flex items-center justify-evenly'>
-              <div className='mr-2'>
-                <img
-                  className='rounded-full w-48 h-48'
-                  src={data.user.picture ? data.user.picture : logo}
-                  alt='logo'
-                  referrerPolicy='no-referrer'
-                />
+          <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12 my-2 lg:my-12'>
+            <div className='ml-2 flex items-center justify-evenly'>
+              <div className='mr-1 ml-2'>
+                <div className='img lg:w-auto w-20'>
+                  <img
+                    className='rounded-full lg:w-48 lg:h-48 w-11/12 ml-2'
+                    src={data.user.picture ? data.user.picture : logo}
+                    alt='logo'
+                    referrerPolicy='no-referrer'
+                  />
+                </div>
 
                 {currentUser === data?.user?.username && (
                   <div
-                    className='w-auto relative -top-10 left-5 cursor-pointer'
+                    className='relative lg:-top-10 -top-5 left-5 cursor-pointer'
                     onClick={profileImageBox}
                   >
                     <svg
@@ -316,7 +317,7 @@ const UserProfile = () => {
               <div className='flex-col'>
                 <div className='flex items-center'>
                   <div className='text-white '>
-                    <h1 className='text-4xl'>
+                    <h1 className='lg:text-4xl text-2xl'>
                       {data.user.name || 'The Debuggers'}
                     </h1>
 
@@ -358,15 +359,15 @@ const UserProfile = () => {
                 <div className='flex mt-4'>
                   <div className='flex items-center justify-center'>
                     <button className='flex'>
-                      <span className='text-xl'>
-                        <b>0 </b>Post
+                      <span className='lg:text-xl text-lg'>
+                        <b>{data?.postCount} </b>Post
                       </span>
                     </button>
                   </div>
 
                   <div className='flex items-center justify-center ml-8'>
                     <button className='flex'>
-                      <span className='text-xl'>
+                      <span className='lg:text-xl text-lg'>
                         <b>{data.user.following?.length || 0} </b>
                         Following
                       </span>
@@ -375,7 +376,7 @@ const UserProfile = () => {
 
                   <div className='items-center justify-center ml-8'>
                     <button className='flex'>
-                      <span className='text-xl'>
+                      <span className='lg:text-xl text-lg'>
                         <b>{data.user.followers?.length || 0} </b>Followers
                       </span>
                     </button>
@@ -387,7 +388,7 @@ const UserProfile = () => {
 
           {currentUser === data?.user?.username && (
             <>
-              <div className='w-3/4 h-4 my-10 flex justify-center items-center'>
+              <div className='lg:w-3/4 w-full h-4 lg:my-10 mt-8 flex justify-center items-center'>
                 <img
                   className='rounded-full w-12 h-12 mr-4'
                   src={data.user.picture ? data.user.picture : logo}
@@ -431,7 +432,7 @@ const UserProfile = () => {
             </>
           )}
 
-          <div className='h-auto w-5/6 bg-red-600 rounded-2xl py-20 my-20 grid place-items-center'>
+          <div className='h-auto w-5/6 rounded-2xl lg:py-10 my-20 grid place-items-center'>
             {data?.postData?.length > 0 ? (
               data.postData.map((post, i) => {
                 return (

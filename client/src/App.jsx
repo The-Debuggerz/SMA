@@ -23,6 +23,8 @@ import UserProfile from './components/Profile/UserProfile';
 import EditPost from './components/EditPost/EditPost';
 import SinglePost from './components/SinglePost/SinglePost';
 
+import LoginCallback from './components/LoginCallback/LoginCallback';
+
 import './App.css';
 
 function App() {
@@ -43,10 +45,12 @@ function App() {
     <div className='conatainer min-h-screen mx-auto'>
       <Navbar />
       <Routes>
+        <Route path='oauth' element={<LoginCallback />} />
         <Route
           path='login'
           element={isLoggedIn ? <Navigate to='/' /> : <Login />}
         />
+
         <Route
           path='signup'
           element={isLoggedIn ? <Navigate to='/' /> : <SignUp />}
