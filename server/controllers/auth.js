@@ -108,6 +108,6 @@ exports.login = async (req, res) => {
 // ************************************************************************************************
 
 exports.logout = (req, res) => {
-  res.clearCookie('jwtoken');
-  res.status(200).json({ message: 'User Logout', isLoggedIn: false, token: null });
+  res.cookie('jwtoken', { expires: Date.now(), domain: process.env.DOMAIN, path: '/' });
+  res.end();
 };
