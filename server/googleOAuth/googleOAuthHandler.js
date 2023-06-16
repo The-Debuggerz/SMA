@@ -62,9 +62,9 @@ exports.googleOAuthHandler = async (req, res) => {
           secure: true,
         });
 
-        res.redirect(process.env.ORIGIN);
+        return res.redirect(process.env.ORIGIN);
       } else {
-        res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
+        return res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
       }
     }
 
@@ -82,9 +82,9 @@ exports.googleOAuthHandler = async (req, res) => {
         secure: true,
       });
 
-      res.redirect(process.env.ORIGIN);
+      return res.redirect(process.env.ORIGIN);
     } else {
-      res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
+      return res.redirect(`${process.env.ORIGIN}/oauth?token=${accessToken}`);
     }
   } catch (error) {
     console.log(error, 'failed to authorize google user');
