@@ -4,6 +4,7 @@ import { ProfileApi } from './ProfileApi';
 import { UsersPostApi } from './UsersPostApi';
 import { SinglePostApi } from './SinglePostApi';
 import { GIFApi } from './GIFApi';
+import { AllPostApi } from './AllPosts';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     [ProfileApi.reducerPath]: ProfileApi.reducer,
     [SinglePostApi.reducerPath]: SinglePostApi.reducer,
     [GIFApi.reducerPath]: GIFApi.reducer,
+    [AllPostApi.reducerPath]: AllPostApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -21,6 +23,7 @@ const store = configureStore({
       ProfileApi.middleware,
       SinglePostApi.middleware,
       GIFApi.middleware,
+      AllPostApi.middleware,
     ]),
 });
 

@@ -407,3 +407,26 @@ exports.singlePost = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// ************************************************************************************************
+// 🚀 Show All Users Post 🚀
+// ************************************************************************************************
+
+exports.allPost = async (req, res) => {
+  let posts = await Post.find()
+    .populate([
+      {
+        path: 'user',
+        select: 'name username picture',
+      },
+      {
+        path: 'comments',
+        options: { sort: { createdAt: -1 }, limit: 2 },
+      },
+    ])
+    .sort({ createdAt: -1 });
+
+  const postData = await processPostData(posts, req.user._id);
+
+  return res.status(200).json({ user: postData });
+};

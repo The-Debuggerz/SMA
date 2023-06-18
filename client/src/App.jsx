@@ -5,6 +5,7 @@ import { userLoggedIn } from './Store/AuthSlice';
 
 import AboutPage from './components/AboutPage/AboutPage';
 import AdminDashBoard from './components/AdminDashboard/AdminDashBoard';
+import AllPosts from './components/AllPosts/AllPosts';
 import ChatPage from './components/ChatPage/ChatPage';
 import Error404 from './components/ErrorPages/404';
 import Error500 from './components/ErrorPages/500';
@@ -64,6 +65,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route index element={<HomePage />} />
           <Route path='admin' element={<AdminDashBoard />} />
+          <Route path='all-posts' element={<AllPosts />} />
           <Route path='profile/:userbyname' element={<UserProfile />} />
           <Route path='chatPage' element={<ChatPage />} />
           <Route path='logout' element={<Logout />} />
