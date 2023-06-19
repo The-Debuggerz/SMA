@@ -26,8 +26,6 @@ import useDebounce from '../../util/Debounce';
 import useComponentLogic from '../../util/useComponentLogic';
 
 const HomePage = () => {
-  console.log('🚀 HomePage ~ im here:');
-
   const {
     commentText,
     setCommentText,

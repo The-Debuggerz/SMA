@@ -76,6 +76,9 @@ exports.userProfile = async (req, res) => {
 
     const postCount = await Post.countDocuments({ user: user._id });
 
+    const followerDetails = await User.find({ _id: { $in: user.followers } }).select(['name', 'username', 'picture']);
+    const followingDetails = await User.find({ _id: { $in: user.following } }).select(['name', 'username', 'picture']);
+
     // Return User Profile Search via params
     if (req.user._id !== user._id) {
       const currentUser = await User.findById(req.user._id);
@@ -85,7 +88,7 @@ exports.userProfile = async (req, res) => {
         followStatus = true;
       }
 
-      return res.status(200).json({ user, followStatus, postData, postCount });
+      return res.status(200).json({ user, followStatus, postData, postCount, followerDetails, followingDetails });
     }
     // else return logged in user profile
     return res.status(200).json({ user, postData, postCount });
