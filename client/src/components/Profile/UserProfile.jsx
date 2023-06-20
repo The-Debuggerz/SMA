@@ -36,8 +36,12 @@ import {
 
 import UserComment from '../UserPost/Comments';
 import useDebounce from '../../util/Debounce';
+import FollowersList from '../FollowersList/FollowersList';
 
 const UserProfile = () => {
+  const [showFollowersList, SetShowFollowersList] = useState(false);
+  const [showFollowingList, SetShowFollowingList] = useState(false);
+
   const [isLoadingD, setIsLoadingD] = useState(false);
   const [commentText, setCommentText] = useState('');
   // GIF STATE
@@ -257,6 +261,14 @@ const UserProfile = () => {
     setCommentText('');
   };
 
+  const handleFollowingListClose = () => {
+    SetShowFollowingList(false);
+  };
+
+  const handleFollowersListClose = () => {
+    SetShowFollowersList(false);
+  };
+
   return (
     <>
       {!isLoadingQuery && !error && (
@@ -366,7 +378,13 @@ const UserProfile = () => {
                   </div>
 
                   <div className='flex items-center justify-center ml-8'>
-                    <button className='flex'>
+                    <button
+                      className='flex'
+                      onClick={() => {
+                        SetShowFollowingList((prev) => !prev);
+                        SetShowFollowersList(false);
+                      }}
+                    >
                       <span className='lg:text-xl text-lg'>
                         <b>{data.user.following?.length || 0} </b>
                         Following
@@ -375,7 +393,13 @@ const UserProfile = () => {
                   </div>
 
                   <div className='items-center justify-center ml-8'>
-                    <button className='flex'>
+                    <button
+                      className='flex'
+                      onClick={() => {
+                        SetShowFollowersList((prev) => !prev);
+                        SetShowFollowingList(false);
+                      }}
+                    >
                       <span className='lg:text-xl text-lg'>
                         <b>{data.user.followers?.length || 0} </b>Followers
                       </span>
@@ -384,6 +408,19 @@ const UserProfile = () => {
                 </div>
               </div>
             </div>
+
+            {showFollowingList && data.followingDetails.length > 0 && (
+              <FollowersList
+                user={data.followingDetails}
+                onClose={handleFollowingListClose}
+              />
+            )}
+            {showFollowersList && data.followerDetails.length > 0 && (
+              <FollowersList
+                user={data.followerDetails}
+                onClose={handleFollowersListClose}
+              />
+            )}
           </div>
 
           {currentUser === data?.user?.username && (

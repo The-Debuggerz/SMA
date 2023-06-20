@@ -1,39 +1,34 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Gif from '../GIF/Gif';
-import {
-  useFollowingUsersPostQuery,
-  useLikeMutation,
-  useUnlikeMutation,
-  useDeletePostMutation,
-} from '../../Store/UsersPostApi';
-
+import logo from '../../assets/logo.png';
+import UserPost from '../UserPost/UserPost';
+import UserComment from '../UserPost/Comments';
+import DropDown from '../UserPost/DropDown';
+import Loader from '../Loader/Loader';
+import { useGetAllPostsQuery } from '../../Store/AllPosts';
+import { useLikeMutation, useUnlikeMutation } from '../../Store/UsersPostApi';
 import {
   usePostCommentMutation,
   useDeleteCommentMutation,
 } from '../../Store/ProfileApi';
-
-import DropDown from '../UserPost/DropDown';
-import Loader from '../Loader/Loader';
-import SearchUser from '../SearchUser/SearchUser';
-import UserComment from '../UserPost/Comments';
-import UserPost from '../UserPost/UserPost';
-import logo from '../../assets/logo.png';
-
-import useDebounce from '../../util/Debounce';
 import useComponentLogic from '../../util/useComponentLogic';
 
-const HomePage = () => {
+const AllPosts = () => {
   const {
     commentText,
     setCommentText,
-    isLoadingD,
     showGrid,
+    setShowGrid,
     categories,
     setCategories,
     searchInputTerm,
+    setSearchInputTerm,
+    isShowingOriginal,
+    setIsShowingOriginal,
+    originalCategories,
     setOriginalCategories,
     isSearchResult,
     setIsSearchResult,
@@ -45,58 +40,14 @@ const HomePage = () => {
   } = useComponentLogic();
 
   const { id } = useSelector((state) => state.auth);
-  const { data, isLoading, error, refetch } = useFollowingUsersPostQuery(null, {
-    // pollingInterval: 5000,
-  });
 
-  const [deletePost] = useDeletePostMutation();
+  const { data, isLoading, refetch } = useGetAllPostsQuery();
   const [like] = useLikeMutation();
   const [unlike] = useUnlikeMutation();
   const [createComment] = usePostCommentMutation();
   const [deleteComment] = useDeleteCommentMutation();
 
-  const debouncedQuery = useDebounce(searchInputTerm, 1000);
-
-  // <-------- -------- * ---------------- >
-
-  useEffect(() => {
-    let gData = async () => {
-      let mData = await fetch(
-        `https://tenor.googleapis.com/v2/categories?key=${
-          import.meta.env.VITE_GIF_API_KEY
-        }&client_key=${import.meta.env.VITE_GIF_API_CLIENT_KEY}`
-      );
-
-      let res = await mData.json();
-      setCategories(res?.tags);
-      setOriginalCategories(res?.tags);
-    };
-
-    gData();
-  }, []);
-
-  // search gif via input box
-  useEffect(() => {
-    let search = async () => {
-      let sData = await fetch(
-        `https://tenor.googleapis.com/v2/search?q=${searchInputTerm}&key=${
-          import.meta.env.VITE_GIF_API_KEY
-        }&client_key=${import.meta.env.VITE_GIF_API_CLIENT_KEY}&limit=${12}`
-      );
-
-      let res = await sData.json();
-
-      setIsSearchResult(true);
-      setCategories(res?.results);
-    };
-
-    if (debouncedQuery) {
-      search();
-    }
-  }, [debouncedQuery]);
-
   if (isLoading) return <Loader />;
-  if (error) return <h1>{error.message}</h1>;
 
   // ************************************************************************************************
   // 🚀 Helper Functions 🚀
@@ -120,8 +71,7 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchUser />
-      <div className='grid place-items-center h-screen'>
+      <div className='grid place-items-center h-full'>
         <div className='h-auto w-5/6 rounded-2xl py-12 my-12 grid place-items-center'>
           {data?.user?.length > 0 ? (
             data.user.map((post) => {
@@ -140,14 +90,14 @@ const HomePage = () => {
                   mujib={post.likeStatus}
                   like={() => {
                     if (post.likeStatus) {
-                      return unlike(_doc._id);
+                      return unlike(_doc._id) && refetch();
                     } else {
-                      return like(_doc._id);
+                      return like(_doc._id) && refetch();
                     }
                   }}
                   commentValue={commentText}
                   inputValue={(e) => setCommentText(e.target.value)}
-                  disabled={isLoadingD}
+                  disabled={isLoading}
                   comment={(e) => handleComment(e, _doc._id)}
                   postLink={_doc._id}
                   // GIF PROPS
@@ -239,4 +189,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default AllPosts;

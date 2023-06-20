@@ -15,6 +15,7 @@ const {
   updateProfilePic,
   singlePost,
   deleteComment,
+  allPost,
 } = require('../controllers/user');
 
 const authentication = require('../middleware/check-auth');
@@ -46,5 +47,7 @@ router.put('/update-profile-pic', updateProfilePic);
 router.get('/single-post/:id', singlePost);
 
 router.delete('/delete-comment/:id', deleteComment);
+
+router.get('/all-posts', allPost);
 
 module.exports = router;

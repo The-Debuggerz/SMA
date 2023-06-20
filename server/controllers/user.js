@@ -76,6 +76,9 @@ exports.userProfile = async (req, res) => {
 
     const postCount = await Post.countDocuments({ user: user._id });
 
+    const followerDetails = await User.find({ _id: { $in: user.followers } }).select(['name', 'username', 'picture']);
+    const followingDetails = await User.find({ _id: { $in: user.following } }).select(['name', 'username', 'picture']);
+
     // Return User Profile Search via params
     if (req.user._id !== user._id) {
       const currentUser = await User.findById(req.user._id);
@@ -85,7 +88,7 @@ exports.userProfile = async (req, res) => {
         followStatus = true;
       }
 
-      return res.status(200).json({ user, followStatus, postData, postCount });
+      return res.status(200).json({ user, followStatus, postData, postCount, followerDetails, followingDetails });
     }
     // else return logged in user profile
     return res.status(200).json({ user, postData, postCount });
@@ -406,4 +409,27 @@ exports.singlePost = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+// ************************************************************************************************
+// 🚀 Show All Users Post 🚀
+// ************************************************************************************************
+
+exports.allPost = async (req, res) => {
+  let posts = await Post.find()
+    .populate([
+      {
+        path: 'user',
+        select: 'name username picture',
+      },
+      {
+        path: 'comments',
+        options: { sort: { createdAt: -1 }, limit: 2 },
+      },
+    ])
+    .sort({ createdAt: -1 });
+
+  const postData = await processPostData(posts, req.user._id);
+
+  return res.status(200).json({ user: postData });
 };

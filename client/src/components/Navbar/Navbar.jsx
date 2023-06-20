@@ -78,6 +78,10 @@ const Navbar = () => {
                           >
                             <span className='nav__itemLineTwo'>Profile</span>
                           </Link>
+
+                          <Link className='nav__item' to='/all-posts'>
+                            <span className='nav__itemLineTwo'>All Posts</span>
+                          </Link>
                           {/* <Link className='nav__item' to='/admin'>
                             <span className='nav__itemLineTwo'>Admin</span>
                           </Link> */}
