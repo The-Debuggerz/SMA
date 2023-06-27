@@ -1,5 +1,4 @@
 :root {
-  --primary: hsl(215, 83%, 9%);
-  --secondary: rgb(34, 34, 132);
-  
+  --primary: rebeccapurple;
+  --secondary: cornflowerblue;
 }

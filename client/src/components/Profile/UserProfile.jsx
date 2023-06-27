@@ -273,12 +273,12 @@ const UserProfile = () => {
     <>
       {!isLoadingQuery && !error && (
         <div className='grid place-items-center relative overflow-hidden pb-20'>
-          <div className='h-4/4 w-11/12 '>
-            <div className=' flex items-center justify-center py-20 pr-20 pl-20  '>
-              <div className='mr-1 ml-5'>
+          <div className='h-4/4 w-11/12 bg-red-600 rounded-2xl py-12 my-2 lg:my-12'>
+            <div className='ml-2 flex items-center justify-evenly'>
+              <div className='mr-1 ml-2'>
                 <div className='img lg:w-auto w-20'>
                   <img
-                    className='rounded-full lg:w-40 lg:h-40 w-11/12  mt-10 mr-20'
+                    className='rounded-full lg:w-48 lg:h-48 w-11/12 ml-2'
                     src={data.user.picture ? data.user.picture : logo}
                     alt='logo'
                     referrerPolicy='no-referrer'
@@ -368,7 +368,7 @@ const UserProfile = () => {
                   )}
                 </div>
 
-                <div className='flex mt-4 text-blue-700'>
+                <div className='flex mt-4'>
                   <div className='flex items-center justify-center'>
                     <button className='flex'>
                       <span className='lg:text-xl text-lg'>
@@ -426,14 +426,14 @@ const UserProfile = () => {
           {currentUser === data?.user?.username && (
             <>
               <div className='lg:w-3/4 w-full h-4 lg:my-10 mt-8 flex justify-center items-center'>
-                {/* <img
+                <img
                   className='rounded-full w-12 h-12 mr-4'
                   src={data.user.picture ? data.user.picture : logo}
                   alt='logo'
                   referrerPolicy='no-referrer'
-                /> */}
+                />
                 <div
-                  className='w-3/5 rounded-2xl flex justify-center items-center p-2  cursor-pointer border-2 border-blue-700 hover:scale-90 transition-transform duration-300 hover:shadow-blue-600/20'
+                  className='w-3/4 rounded-2xl flex justify-center items-center p-2 cursor-pointer border-2 border-gray-700 hover:border-red-500 hover:border-4 hover:border-doublee'
                   onClick={createPostBox}
                 >
                   <span className='text-gray-600 text-md tracking-widest hover:text-white'>
