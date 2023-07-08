@@ -18,7 +18,7 @@ const UserPost = (props) => {
 
   return (
     <div
-      className='bg-white rounded-lg shadow-md p-4 lg:w-1/3 mb-12 relative sm:w-full'
+      className='bg-white rounded-lg shadow-md p-4 lg:w-1/3 mb-12 relative  md:w-1/2 w-11/12'
       key={props.id}
     >
       <div className='flex items-center mb-4 justify-between'>

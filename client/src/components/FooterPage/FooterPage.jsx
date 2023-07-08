@@ -50,7 +50,7 @@ const FooterPage = () => {
           </a>
           <a
             className='ml-3 text-gray-500'
-            href='https://discord.gg/KpYtu7gT '
+            href='https://discord.gg/metueyBQ9f'
             target='_blank'
             rel='noreferrer'
           >
@@ -61,7 +61,7 @@ const FooterPage = () => {
           </a>
           <a
             className='ml-3 text-gray-500'
-            href='https://github.com/The-Debuggerz'
+            href='https://github.com/The-Debuggerz/SMA'
             target='_blank'
             rel='noreferrer'
           >
