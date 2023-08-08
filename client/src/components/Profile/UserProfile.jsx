@@ -131,9 +131,7 @@ const UserProfile = () => {
   useEffect(() => {
     let gData = async () => {
       let mData = await fetch(
-        `https://tenor.googleapis.com/v2/categories?key=${
-          import.meta.env.VITE_GIF_API_KEY
-        }&client_key=${import.meta.env.VITE_GIF_API_CLIENT_KEY}`
+        `https://tenor.googleapis.com/v2/categories?key=AIzaSyA_txpXQGN4Y9jWf0tqjbrRfy-ng4zrp4c&client_key=thedebuggerssma`
       );
 
       let res = await mData.json();
@@ -151,9 +149,7 @@ const UserProfile = () => {
   useEffect(() => {
     let search = async () => {
       let sData = await fetch(
-        `https://tenor.googleapis.com/v2/search?q=${searchInputTerm}&key=${
-          import.meta.env.VITE_GIF_API_KEY
-        }&client_key=${import.meta.env.VITE_GIF_API_CLIENT_KEY}&limit=${12}`
+        `https://tenor.googleapis.com/v2/search?q=${searchInputTerm}&key=AIzaSyA_txpXQGN4Y9jWf0tqjbrRfy-ng4zrp4c&client_key=thedebuggerssma&limit=${12}`
       );
 
       let res = await sData.json();

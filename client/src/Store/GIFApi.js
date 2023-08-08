@@ -9,17 +9,13 @@ export const GIFApi = createApi({
     //
     getGifCategory: builder.query({
       query: () =>
-        `/categories?key=${import.meta.env.VITE_GIF_API_KEY}&client_key=${
-          import.meta.env.VITE_GIF_API_CLIENT_KEY
-        }`,
+        `/categories?key=AIzaSyA_txpXQGN4Y9jWf0tqjbrRfy-ng4zrp4c&client_key=thedebuggerssma`,
       providesTags: ['GIF'],
     }),
 
     selectedGif: builder.query({
       query: (newTerm) =>
-        `/search?q=${newTerm}&key=${
-          import.meta.env.VITE_GIF_API_KEY
-        }&client_key=${import.meta.env.VITE_GIF_API_CLIENT_KEY}&limit=${12}`,
+        `/search?q=${newTerm}&key=AIzaSyA_txpXQGN4Y9jWf0tqjbrRfy-ng4zrp4c&client_key=thedebuggerssma&limit=${12}`,
       providesTags: ['GIF'],
     }),
   }),
