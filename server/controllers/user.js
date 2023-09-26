@@ -302,7 +302,7 @@ exports.deleteComment = async (req, res) => {
   }
 
   // Check if the user is the author of the comment
-  if (!comment.user !== req.user._id) {
+  if (comment.user.toString() !== req.user._id) {
     return res.status(403).json('You are not authorized to delete this comment');
   }
 
