@@ -192,12 +192,15 @@ const HomePage = () => {
                             text={comment.text ? comment.text : null}
                             gif={comment.gifUrl ? comment.gifUrl : null}
                           >
-                            <DropDown
-                              delete={(e) =>
-                                deleteCommentHandler(e, comment._id)
-                              }
-                              postId={comment._id}
-                            />
+                            {id === _doc.user._id ? (
+                              <DropDown
+                                showEditButton={true}
+                                delete={(e) =>
+                                  deleteCommentHandler(e, comment._id)
+                                }
+                                postId={comment._id}
+                              />
+                            ) : null}
                           </UserComment>
                         );
                       })

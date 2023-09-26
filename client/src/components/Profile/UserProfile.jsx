@@ -529,10 +529,13 @@ const UserProfile = () => {
                               text={comment.text ? comment.text : null}
                               gif={comment.gifUrl ? comment.gifUrl : null}
                             >
-                              <DropDown
-                                delete={() => deleteComment(comment._id)}
-                                postId={comment._id}
-                              />
+                              {id === data.user._id ? (
+                                <DropDown
+                                  showEditButton={true}
+                                  delete={() => deleteComment(comment._id)}
+                                  postId={comment._id}
+                                />
+                              ) : null}
                             </UserComment>
                           );
                         })
