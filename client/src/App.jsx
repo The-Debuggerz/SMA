@@ -43,7 +43,7 @@ function App() {
   // console.log(isLoggedIn);
 
   return (
-    <div className='flex flex-col h-screen justify-between'>
+    <div className='conatainer min-h-screen mx-auto'>
       <Navbar />
       <Routes>
         <Route path='oauth' element={<LoginCallback />} />
@@ -78,7 +78,7 @@ function App() {
         <Route path='/f' element={<Error500 />} />
         <Route path='*' element={<Error404 />} />
       </Routes>
-      {!loading && pathname !== '/' && <FooterPage  />}
+      {!loading && pathname !== '/' && <FooterPage />}
     </div>
   );
 }
