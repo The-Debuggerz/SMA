@@ -18,7 +18,7 @@ const FooterPage = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className='h-auto bg-slate-700 text-gray-700 w-full'>
+    <footer className='h-auto bg-slate-700 text-gray-700 w-full static  bottom-0'>
       <hr />
       <div className='px-5 py-4 mx-auto flex items-center sm:flex-row flex-col'>
         <a className='flex title-font font-medium items-center md:justify-start justify-center text-gray-900'>
